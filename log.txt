@@ -1,0 +1,13 @@
+OSS: starting, PID:597897 PPID:5357
+OSS called with:
+-n 1
+-s 1
+-t 1.000
+-i 0.000
+-f log.txt
+OSS: Shared memory clock initialized.
+OSS: Initial clock is 0:0
+OSS: Clock after adding 500 nanoseconds is 0:500
+OSS: Clock after adding 1 second is 1:500
+OSS: Shared memory detached and removed.
+OSS: Task 1 complete.
