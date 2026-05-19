@@ -175,6 +175,17 @@ int ioHead = 0;
 int ioTail = 0;
 int ioCount = 0;
 
+//FIFO queue for frame replacement.
+//This queue stores frame numbers in the order they were filled.
+
+//When memory is full, OSS removes the frame at the front of this queue.
+//That is the frame that has been in memory the longest.
+int fifoQueue[FRAME_COUNT];
+
+int fifoHead = 0;
+int fifoTail = 0;
+int fifoCount = 0;
+
 long long getClockNS(unsigned int *clock);
 void setClockFromNS(unsigned int *clock, long long timeNS);
 void addToClock(unsigned int *clock, long long timeToAddNS);
@@ -251,6 +262,131 @@ void initFrameTable() {
     }
 }
 
+//Initialize the FIFO frame queue.
+//This queue is used for Step 8 page replacement.
+void initFIFOQueue() {
+    int i;
+
+    for (i = 0; i < FRAME_COUNT; i++) {
+        fifoQueue[i] = -1;
+    }
+
+    fifoHead = 0;
+    fifoTail = 0;
+    fifoCount = 0;
+}
+
+//Remove a frame from the FIFO queue if it is already there.
+//
+//This is useful when a process terminates and releases frames.
+//It also prevents duplicate frame numbers from staying in the FIFO queue.
+void removeFrameFromFIFO(int frame) {
+    int tempQueue[FRAME_COUNT];
+    int tempCount = 0;
+    int i;
+
+    for (i = 0; i < FRAME_COUNT; i++) {
+        tempQueue[i] = -1;
+    }
+
+    while (fifoCount > 0) {
+        int currentFrame = fifoQueue[fifoHead];
+
+        fifoQueue[fifoHead] = -1;
+        fifoHead = (fifoHead + 1) % FRAME_COUNT;
+        fifoCount--;
+
+        if (currentFrame != frame) {
+            tempQueue[tempCount] = currentFrame;
+            tempCount++;
+        }
+    }
+
+    fifoHead = 0;
+    fifoTail = 0;
+    fifoCount = 0;
+
+    for (i = 0; i < tempCount; i++) {
+        fifoQueue[fifoTail] = tempQueue[i];
+        fifoTail = (fifoTail + 1) % FRAME_COUNT;
+        fifoCount++;
+    }
+}
+
+//Add a frame to the back of the FIFO queue.
+//
+//This should happen whenever a page is placed into a frame.
+//The frame at the front of the queue is the oldest loaded frame.
+void enqueueFIFOFrame(int frame) {
+    if (frame < 0 || frame >= FRAME_COUNT) {
+        return;
+    }
+
+    //Make sure this frame is not already in the queue.
+    removeFrameFromFIFO(frame);
+
+    if (fifoCount >= FRAME_COUNT) {
+        logBoth("OSS: FIFO queue is full, cannot enqueue frame %d\n", frame);
+        return;
+    }
+
+    fifoQueue[fifoTail] = frame;
+    fifoTail = (fifoTail + 1) % FRAME_COUNT;
+    fifoCount++;
+
+    logBoth("OSS: Added frame %d to FIFO queue\n", frame);
+}
+
+//Choose a victim frame using FIFO.
+//
+//This removes frames from the front of the FIFO queue until it finds
+//an occupied frame. That occupied frame is the oldest loaded frame.
+int chooseFIFOVictimFrame() {
+    while (fifoCount > 0) {
+        int frame = fifoQueue[fifoHead];
+
+        fifoQueue[fifoHead] = -1;
+        fifoHead = (fifoHead + 1) % FRAME_COUNT;
+        fifoCount--;
+
+        if (frame >= 0 &&
+            frame < FRAME_COUNT &&
+            frameTable[frame].occupied == 1) {
+            return frame;
+        }
+    }
+
+    //Fallback safety check.
+    //This should not normally be reached if the FIFO queue is maintained correctly.
+    logBoth("OSS: FIFO queue did not contain an occupied frame. Falling back to first occupied frame.\n");
+
+    int i;
+
+    for (i = 0; i < FRAME_COUNT; i++) {
+        if (frameTable[i].occupied == 1) {
+            return i;
+        }
+    }
+
+    return 0;
+}
+
+//Print the current FIFO queue.
+//This is useful for proving Step 8 is actually using FIFO.
+void printFIFOQueue() {
+    int i;
+    int index;
+
+    logBoth("\nFIFO Frame Queue: [ ");
+
+    for (i = 0; i < fifoCount; i++) {
+        index = (fifoHead + i) % FRAME_COUNT;
+        logBoth("%d ", fifoQueue[index]);
+    }
+
+    logBoth("]\n");
+}
+
 //Find an unused PCB slot.
 int findFreePCBSlot() {
     int i;
@@ -324,10 +460,13 @@ void releaseFramesForProcess(int slot) {
                     pcbTable[slot].localPid,
                     frameTable[i].page);
 
-            frameTable[i].occupied = 0;
-            frameTable[i].dirtyBit = 0;
-            frameTable[i].process = -1;
-            frameTable[i].page = -1;
+        //Remove this frame from the FIFO queue because it is no longer occupied.
+        removeFrameFromFIFO(i);
+
+        frameTable[i].occupied = 0;
+        frameTable[i].dirtyBit = 0;
+        frameTable[i].process = -1;
+        frameTable[i].page = -1;
         }
     }
 }
@@ -345,13 +484,13 @@ int loadPageIntoFrame(int slot, int page, int requestType, unsigned int *clock) 
 
     //If no frame is free, choose a victim frame to clear.
     if (frame == -1) {
-        frame = chooseSimpleVictimFrame();
+        frame = chooseFIFOVictimFrame();
 
         int oldProcess = frameTable[frame].process;
         int oldPage = frameTable[frame].page;
         int oldDirtyBit = frameTable[frame].dirtyBit;
 
-        logBoth("OSS: No free frame available. Clearing frame %d from process slot %d page %d\n",
+        logBoth("OSS: No free frame available. FIFO selected frame %d from process slot %d page %d\n",
                 frame,
                 oldProcess,
                 oldPage);
@@ -415,6 +554,13 @@ int loadPageIntoFrame(int slot, int page, int requestType, unsigned int *clock) 
             pcbTable[slot].localPid,
             page,
             frame);
+
+    //Step 8:
+    //Once a page is loaded into a frame, put that frame at the back
+    //of the FIFO queue. This records the order frames were filled.
+    enqueueFIFOFrame(frame);
+
+    printFIFOQueue();
 
     return frame;
 }
@@ -1198,6 +1344,7 @@ int main(int argc, char *argv[]) {
     initPCBTable();
     initFrameTable();
     initIOQueue();
+    initFIFOQueue();
 
     logBoth("OSS: starting, PID:%d PPID:%d\n", getpid(), getppid());
     logBoth("OSS called with:\n");
@@ -1417,13 +1564,21 @@ int main(int argc, char *argv[]) {
     printPageTables();
     printFrameTable();
 
-    logBoth("\nOSS: Step 7 Summary\n");
+    logBoth("\nOSS: Step 8 Summary\n");
     logBoth("OSS: Children launched: %d\n", launchedChildren);
     logBoth("OSS: Children finished: %d\n", finishedChildren);
     logBoth("OSS: Total memory requests: %d\n", totalRequests);
     logBoth("OSS: Total reads: %d\n", totalReads);
     logBoth("OSS: Total writes: %d\n", totalWrites);
     logBoth("OSS: Total page faults: %d\n", totalPageFaults);
+    double pageFaultPercent = 0.0;
+
+    if (totalRequests > 0) {
+        pageFaultPercent = ((double)totalPageFaults / (double)totalRequests) * 100.0;
+    }
+
+    logBoth("OSS: Page fault percentage: %.2f%%\n", pageFaultPercent);
+
     logBoth("OSS: Final clock: %u:%u\n", clock[0], clock[1]);
 
     //clean up shared memory and the message queue.
