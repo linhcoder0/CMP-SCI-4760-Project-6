@@ -1,4 +1,4 @@
-OSS: starting, PID:799314 PPID:5357
+OSS: starting, PID:807555 PPID:565258
 OSS called with:
 -n 1
 -s 1
@@ -7,9 +7,9 @@ OSS called with:
 -f log.txt
 OSS: Shared memory clock initialized.
 OSS: Initial clock is 0:0
-OSS: Message queue created with id 17
+OSS: Message queue created with id 18
 
-OSS PID:799314 SysClockS: 0 SysClockNano: 0
+OSS PID:807555 SysClockS: 0 SysClockNano: 0
 Process Table:
 Entry Occupied LocalPID RealPID StartS StartN Blocked
     0        0        0       0      0      0       0
@@ -100,13 +100,14 @@ Frame Occupied DirtyBit Process Page
    62        0        0      -1   -1
    63        0        0      -1   -1
 
-OSS: Forked worker P1 with PID 799315 in slot 0 at time 0:0
-OSS: Sending test message to worker PID 799315 at time 0:1000
-OSS: Received reply from worker PID 799315 slot 0 value 1 at time 0:1000
-OSS: Worker verified shared memory clock and time limit successfully.
-OSS: Worker PID 799315 has terminated.
+OSS: Forked worker P1 with PID 807556 in slot 0 at time 0:0
+OSS: Sending test message to worker PID 807556 at time 0:1000
+OSS: P1 requesting read of address 1731 at time 0:1000
+OSS: Address 1731 is page 1 with offset 707
+OSS: Granting read request for address 1731 to P1 at time 0:1100
+OSS: Worker PID 807556 has terminated.
 
-OSS PID:799314 SysClockS: 0 SysClockNano: 1000
+OSS PID:807555 SysClockS: 0 SysClockNano: 1100
 Process Table:
 Entry Occupied LocalPID RealPID StartS StartN Blocked
     0        0        0       0      0      0       0
@@ -197,4 +198,4 @@ Frame Occupied DirtyBit Process Page
    62        0        0      -1   -1
    63        0        0      -1   -1
 OSS: Shared memory and message queue cleaned up.
-OSS: Step 2 complete.
+OSS: Step 3 complete.

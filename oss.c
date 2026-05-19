@@ -44,6 +44,17 @@
 #define PAGE_COUNT 16
 #define FRAME_COUNT 64
 
+//Each process has 16K logical memory.
+//Each page is 1K.
+//So each process has 16 pages, and each page has 1024 possible offsets.
+#define PAGE_SIZE 1024
+
+//These values are used in the message structure.
+//REQUEST_READ means the child is requesting a simulated read.
+//REQUEST_WRITE means the child is requesting a simulated write.
+#define REQUEST_READ 0
+#define REQUEST_WRITE 1
+
 //shared memory clock size
 //like the previous project, we will use an array of two unsigned ints to represent the clock,
 //where clock[0] is seconds and clock[1] is nanoseconds. This allows us to easily handle the clock math and normalization.
@@ -51,21 +62,34 @@ const size_t BUFF_SZ = sizeof(unsigned int) * 2;
 
 struct Message {
     //msg structure used between OSS and worker.
+    //In step 2, this only tested that messages worked.
+    //In step 3, this now carries a memory request.
+
     long mtype;
-    //mtype = message type 
+    //mtype = message type
     //OSS sends messages using the worker pid as the message type.
-    //WORKER sends messages back using message type 1 
+    //WORKER sends messages back using message type 1.
 
     int value;
-    //OSS sends value 1 to tell the child to check shm
-    //WORKER sends value 1 back if everything worked
-    //WORKER sends value 0 back if something went wrong
+    //value is a simple status/control value.
+    //OSS sends value 1 to tell the child it can take a turn.
+    //WORKER sends value 1 to mean it is making a memory request.
+    //OSS sends value 1 back to mean the memory request was granted.
 
     int pid;
-    //the pid of the process sending the message
+    //the pid of the process sending the message.
 
     int slot;
-    //the PCB slot associated with the worker
+    //the PCB slot associated with the worker.
+
+    int address;
+    //the logical memory address requested by the worker.
+    //For this project, the child has addresses from 0 to 16383.
+    //That is 16 pages times 1024 bytes per page.
+
+    int requestType;
+    //REQUEST_READ means this is a read request.
+    //REQUEST_WRITE means this is a write request.
 };
 
 struct PCB {
@@ -718,6 +742,13 @@ int main(int argc, char *argv[]) {
     //The worker sends this same slot back in its reply.
     msgToChild.slot = slot;
 
+    
+    //These fields are not used in the turn message.
+    //They are set to safe default values anyway.
+    msgToChild.address = 0;
+    msgToChild.requestType = REQUEST_READ;
+
+
     logBoth("OSS: Sending test message to worker PID %d at time %u:%u\n",
             (int)pid,
             clock[0],
@@ -741,6 +772,11 @@ int main(int argc, char *argv[]) {
     //
     //msgsnd returns -1 on failure.
 
+    //After this, the worker should generate:
+    //- a random page number
+    //- a random offset
+    //- a logical address
+    //- a read or write choice
     if (msgsnd(msg_id, &msgToChild, sizeof(struct Message) - sizeof(long), 0) == -1) {
         perror("OSS: Error in msgsnd");
 
@@ -782,39 +818,109 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    
-    //print what OSS received from the worker.
-    //
-    //For Step 2:
-    //value should be 1 if the worker successfully:
-    //- attached to shared memory
-    //- read the clock
-    //- checked the time limit
-    //- received the OSS message
-    //- sent a reply
 
-    logBoth("OSS: Received reply from worker PID %d slot %d value %d at time %u:%u\n",
-            msgFromChild.pid,
-            msgFromChild.slot,
-            msgFromChild.value,
-            clock[0],
-            clock[1]);
-    
-    //interpret the worker reply
-    if (msgFromChild.value == 1) {
-        logBoth("OSS: Worker verified shared memory clock and time limit successfully.\n");
+    //Figure out whether the request was a read or a write.
+    //This only affects the log message in step 3.
+    char requestString[16];
+
+    if (msgFromChild.requestType == REQUEST_WRITE) {
+        strcpy(requestString, "write");
     } else {
-        logBoth("OSS: Worker reported a problem during Step 2 verification.\n");
+        strcpy(requestString, "read");
     }
 
-    // Wait for the child process to terminate.
+    //Extract the page number from the requested address.
+    //
+    //The assignment says OSS gets the page number by dividing
+    //the address by 1024.
+    int requestedPage = msgFromChild.address / PAGE_SIZE;
+
+    //Extract the offset too.
+    //This is not strictly required yet, but it is useful to log.
+    int requestedOffset = msgFromChild.address % PAGE_SIZE;
+
+    //Log the memory request from the worker
+    logBoth("OSS: P%d requesting %s of address %d at time %u:%u\n",
+            pcbTable[msgFromChild.slot].localPid,
+            requestString,
+            msgFromChild.address,
+            clock[0],
+            clock[1]);
+
+    logBoth("OSS: Address %d is page %d with offset %d\n",
+            msgFromChild.address,
+            requestedPage,
+            requestedOffset);
+
+    //Step 3 says to always grant the memory request.
+    //
+    //So we do not check for page faults yet.
+    //We do not fill the page table yet.
+    //We do not fill the frame table yet.
+    //
+    //That starts in later steps
+    addToClock(clock, 100);
+
+    if (msgFromChild.requestType == REQUEST_WRITE) {
+        logBoth("OSS: Granting write request for address %d to P%d at time %u:%u\n",
+                msgFromChild.address,
+                pcbTable[msgFromChild.slot].localPid,
+                clock[0],
+                clock[1]);
+    } else {
+        logBoth("OSS: Granting read request for address %d to P%d at time %u:%u\n",
+                msgFromChild.address,
+                pcbTable[msgFromChild.slot].localPid,
+                clock[0],
+                clock[1]);
+    }
+
+    //Now send a grant message back to the worker.
+    //
+    //The worker is waiting for this before it exits.
+    struct Message grantMessage;
+
+    //Send the grant to the worker's pid.
+    grantMessage.mtype = msgFromChild.pid;
+
+    //value = 1 means the request was granted.
+    grantMessage.value = 1;
+
+    //OSS is the sender.
+    grantMessage.pid = getpid();
+
+    //Keep the same PCB slot.
+    grantMessage.slot = msgFromChild.slot;
+
+    //Send the same address back so the worker can verify what was granted.
+    grantMessage.address = msgFromChild.address;
+
+    //Send the same request type back.
+    grantMessage.requestType = msgFromChild.requestType;
+
+    if (msgsnd(msg_id, &grantMessage, sizeof(struct Message) - sizeof(long), 0) == -1) {
+        perror("OSS: Error in msgsnd grant message");
+
+        kill(pid, SIGTERM);
+        waitpid(pid, NULL, 0);
+
+        clearPCBEntry(slot);
+        cleanupIPC();
+
+        fclose(logFileGlobal);
+        logFileGlobal = NULL;
+
+        return EXIT_FAILURE;
+    }
+
+    //Wait for the child process to terminate.
     if (waitpid(pid, &status, 0) == -1) {
         perror("OSS: Error in waitpid");
 
-        //child may already be gone, but PCB slot still needs to get cleared
+        //child may already be gone, but PCB slot still needs to get cleared.
         clearPCBEntry(slot);
 
-        //clean up IPC before exiting
+        //clean up IPC before exiting.
         cleanupIPC();
 
         fclose(logFileGlobal);
@@ -836,22 +942,25 @@ int main(int argc, char *argv[]) {
     //- page table entries
     clearPCBEntry(slot);
 
-    //print tables again after worker terminates
-    //at this point:
-    //PCB table should be empty again
-    //Frame table should still be empty
-    //No page has actually been loaded yet
-    //because the logic starts in steps beyond #2
+    //print tables again after worker terminates.
+    //
+    //At this point:
+    //- PCB table should be empty again.
+    //- Frame table should still be empty.
+    //- No page has actually been loaded yet.
+    //
+    //Page/frame logic starts in later steps.
     printProcessTable(clock);
     printPageTables();
     printFrameTable();
 
-    //clean up shared memory and the message queue
+    //clean up shared memory and the message queue.
     cleanupIPC();
 
     logBoth("OSS: Shared memory and message queue cleaned up.\n");
+    logBoth("OSS: Step 3 complete.\n");
 
-    //close logfile at the end
+    //close logfile at the end.
     if (logFileGlobal != NULL) {
         fclose(logFileGlobal);
         logFileGlobal = NULL;
