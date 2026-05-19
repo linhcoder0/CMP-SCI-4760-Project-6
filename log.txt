@@ -1,4 +1,4 @@
-OSS: starting, PID:807555 PPID:565258
+OSS: starting, PID:827193 PPID:5357
 OSS called with:
 -n 1
 -s 1
@@ -7,9 +7,9 @@ OSS called with:
 -f log.txt
 OSS: Shared memory clock initialized.
 OSS: Initial clock is 0:0
-OSS: Message queue created with id 18
+OSS: Message queue created with id 20
 
-OSS PID:807555 SysClockS: 0 SysClockNano: 0
+OSS PID:827193 SysClockS: 0 SysClockNano: 0
 Process Table:
 Entry Occupied LocalPID RealPID StartS StartN Blocked
     0        0        0       0      0      0       0
@@ -100,14 +100,14 @@ Frame Occupied DirtyBit Process Page
    62        0        0      -1   -1
    63        0        0      -1   -1
 
-OSS: Forked worker P1 with PID 807556 in slot 0 at time 0:0
-OSS: Sending test message to worker PID 807556 at time 0:1000
-OSS: P1 requesting read of address 1731 at time 0:1000
-OSS: Address 1731 is page 1 with offset 707
-OSS: Granting read request for address 1731 to P1 at time 0:1100
-OSS: Worker PID 807556 has terminated.
+OSS: Forked worker P1 with PID 827194 in slot 0 at time 0:0
+OSS: Sending turn message to worker P1 PID 827194 at time 0:1000
+OSS: P1 requesting write of address 10866 at time 0:1000
+OSS: Address 10866 is page 10 with offset 626
+OSS: Granting write request for address 10866 to P1 at time 0:1100
+OSS: Worker P1 PID 827194 has terminated.
 
-OSS PID:807555 SysClockS: 0 SysClockNano: 1100
+OSS PID:827193 SysClockS: 0 SysClockNano: 1100
 Process Table:
 Entry Occupied LocalPID RealPID StartS StartN Blocked
     0        0        0       0      0      0       0
@@ -197,5 +197,13 @@ Frame Occupied DirtyBit Process Page
    61        0        0      -1   -1
    62        0        0      -1   -1
    63        0        0      -1   -1
+
+OSS: Step 4 Summary
+OSS: Children launched: 1
+OSS: Children finished: 1
+OSS: Total memory requests: 1
+OSS: Total reads: 0
+OSS: Total writes: 1
+OSS: Final clock: 0:1100
 OSS: Shared memory and message queue cleaned up.
-OSS: Step 3 complete.
+OSS: Step 4 complete.
