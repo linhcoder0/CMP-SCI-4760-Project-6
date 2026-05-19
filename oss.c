@@ -57,7 +57,7 @@
 
 //This is how much time OSS adds before sending a worker a turn message.
 //This keeps the simulated clock moving.
-#define TURN_INCREMENT_NS 1000LL
+#define TURN_INCREMENT_NS LOOP_INCREMENT_NS
 
 //This is how much time OSS adds when it grants a memory request.
 //Step 3 says normal memory access is granted immediately.
@@ -66,6 +66,17 @@
 
 //This is used when OSS has no active process to message but still needs time to move.
 #define IDLE_INCREMENT_NS 10000LL
+
+#define DISK_IO_NS 14000000LL
+#define DIRTY_SWAP_EXTRA_NS 14000000LL
+#define LOOP_INCREMENT_NS 10000000LL
+
+#define MSG_TERMINATE 0
+#define MSG_MEMORY_REQUEST 1
+#define MSG_GRANTED 1
+
+#define MAX_IO_QUEUE 100
+
 
 //shared memory clock size
 //like the previous project, we will use an array of two unsigned ints to represent the clock,
@@ -126,6 +137,16 @@ struct Frame {
     int page;
 };
 
+struct IORequest {
+    int occupied;
+    int slot;
+    int pid;
+    int address;
+    int requestType;
+    int page;
+    long long readyTimeNS;
+};
+
 //global shared memory id.
 //this is global so cleanupIPC can remove the shared memory segment even if the program is interrupted by a signal.
 static int shm_id_global = -1;
@@ -148,6 +169,16 @@ static int logLimitMessagePrinted = 0;
 //global PCB table and frame table.
 struct PCB pcbTable[MAX_PCB_SIZE];
 struct Frame frameTable[FRAME_COUNT];
+struct IORequest ioQueue[MAX_IO_QUEUE];
+
+int ioHead = 0;
+int ioTail = 0;
+int ioCount = 0;
+
+long long getClockNS(unsigned int *clock);
+void setClockFromNS(unsigned int *clock, long long timeNS);
+void addToClock(unsigned int *clock, long long timeToAddNS);
+long long secondsToNS(double seconds);
 
 //print to screen and log file if open, with a line limit for the log file. not that necessary for task 1 but it's been shown the previous couple of projects 
 // and will be useful for later tasks when there is more logging.
@@ -304,13 +335,12 @@ void releaseFramesForProcess(int slot) {
 //Load a process page into a frame.
 //
 //If there is a free frame, use it.
-//If there is no free frame, evict a simple victim frame for now.
+//If there is no free frame, evict a victim frame.
 //
-//This updates:
-//- the frame table
-//- the requesting process page table
-//- the old victim process page table, if eviction happens
-int loadPageIntoFrame(int slot, int page, int requestType) {
+//Step 7 adds dirty bit cost.
+//If the victim frame is dirty, OSS adds extra simulated time
+//because the dirty page has to be written back before replacement.
+int loadPageIntoFrame(int slot, int page, int requestType, unsigned int *clock) {
     int frame = findFreeFrame();
 
     //If no frame is free, choose a victim frame to clear.
@@ -319,11 +349,29 @@ int loadPageIntoFrame(int slot, int page, int requestType) {
 
         int oldProcess = frameTable[frame].process;
         int oldPage = frameTable[frame].page;
+        int oldDirtyBit = frameTable[frame].dirtyBit;
 
         logBoth("OSS: No free frame available. Clearing frame %d from process slot %d page %d\n",
                 frame,
                 oldProcess,
                 oldPage);
+
+        //Step 7:
+        //If the victim frame is dirty, it takes extra time to swap it out.
+        //This simulates writing the dirty page back to disk before replacing it.
+        if (oldDirtyBit == 1) {
+            logBoth("OSS: Dirty bit of frame %d is set. Adding extra dirty swap time at %u:%u\n",
+                    frame,
+                    clock[0],
+                    clock[1]);
+
+            addToClock(clock, DIRTY_SWAP_EXTRA_NS);
+
+            logBoth("OSS: Dirty frame %d write-back complete at %u:%u\n",
+                    frame,
+                    clock[0],
+                    clock[1]);
+        }
 
         //If the old frame belonged to a valid process/page,
         //mark that old process's page as no longer loaded.
@@ -343,17 +391,24 @@ int loadPageIntoFrame(int slot, int page, int requestType) {
 
     //Put the requested page into the chosen frame.
     frameTable[frame].occupied = 1;
+
+    //Dirty bit starts at 0 when the page is first placed in the frame.
     frameTable[frame].dirtyBit = 0;
+
     frameTable[frame].process = slot;
     frameTable[frame].page = page;
 
     //Update the process page table so this page points to the frame.
     pcbTable[slot].pageTable[page] = frame;
 
-    //The assignment says dirty bit starts at 0 when a page is placed in a frame.
-    //If this request is a write, then the frame becomes dirty after the write.
+    //If the current request is a write, the new frame becomes dirty.
     if (requestType == REQUEST_WRITE) {
         frameTable[frame].dirtyBit = 1;
+
+        logBoth("OSS: Dirty bit of frame %d set because P%d is writing page %d\n",
+                frame,
+                pcbTable[slot].localPid,
+                page);
     }
 
     logBoth("OSS: Loaded P%d page %d into frame %d\n",
@@ -362,6 +417,203 @@ int loadPageIntoFrame(int slot, int page, int requestType) {
             frame);
 
     return frame;
+}
+
+//Initialize the I/O wait queue.
+//This queue stores page fault requests that are waiting on disk.
+void initIOQueue() {
+    int i;
+
+    for (i = 0; i < MAX_IO_QUEUE; i++) {
+        ioQueue[i].occupied = 0;
+        ioQueue[i].slot = -1;
+        ioQueue[i].pid = 0;
+        ioQueue[i].address = 0;
+        ioQueue[i].requestType = REQUEST_READ;
+        ioQueue[i].page = -1;
+        ioQueue[i].readyTimeNS = 0;
+    }
+
+    ioHead = 0;
+    ioTail = 0;
+    ioCount = 0;
+}
+
+//Return true if the I/O queue is empty.
+int isIOQueueEmpty() {
+    return ioCount == 0;
+}
+
+//Return the time when the first blocked request will be ready.
+long long getNextIOReadyTime() {
+    if (ioCount <= 0) {
+        return -1;
+    }
+
+    return ioQueue[ioHead].readyTimeNS;
+}
+
+//Add a page fault request to the I/O queue.
+//The worker is blocked because OSS does not send a reply yet.
+int enqueueIORequest(int slot,
+                     int pid,
+                     int address,
+                     int requestType,
+                     int page,
+                     unsigned int *clock) {
+    if (ioCount >= MAX_IO_QUEUE) {
+        logBoth("OSS: I/O queue is full. Cannot queue page fault request.\n");
+        return 0;
+    }
+
+    ioQueue[ioTail].occupied = 1;
+    ioQueue[ioTail].slot = slot;
+    ioQueue[ioTail].pid = pid;
+    ioQueue[ioTail].address = address;
+    ioQueue[ioTail].requestType = requestType;
+    ioQueue[ioTail].page = page;
+
+    //This request becomes ready after simulated disk time.
+    ioQueue[ioTail].readyTimeNS = getClockNS(clock) + DISK_IO_NS;
+
+    logBoth("OSS: Queued page fault for P%d address %d page %d. It will be ready at %lld ns\n",
+            pcbTable[slot].localPid,
+            address,
+            page,
+            ioQueue[ioTail].readyTimeNS);
+
+    ioTail = (ioTail + 1) % MAX_IO_QUEUE;
+    ioCount++;
+
+    return 1;
+}
+
+//Remove the head request from the I/O queue.
+struct IORequest dequeueIORequest() {
+    struct IORequest request = ioQueue[ioHead];
+
+    ioQueue[ioHead].occupied = 0;
+    ioQueue[ioHead].slot = -1;
+    ioQueue[ioHead].pid = 0;
+    ioQueue[ioHead].address = 0;
+    ioQueue[ioHead].requestType = REQUEST_READ;
+    ioQueue[ioHead].page = -1;
+    ioQueue[ioHead].readyTimeNS = 0;
+
+    ioHead = (ioHead + 1) % MAX_IO_QUEUE;
+    ioCount--;
+
+    return request;
+}
+
+//Find the next occupied PCB slot that is not blocked.
+//Blocked processes should not receive another turn message.
+int findNextUnblockedPCBSlot(int startSlot) {
+    int i;
+
+    for (i = 0; i < MAX_PCB_SIZE; i++) {
+        int checkSlot = (startSlot + i) % MAX_PCB_SIZE;
+
+        if (pcbTable[checkSlot].occupied == 1 &&
+            pcbTable[checkSlot].blocked == 0) {
+            return checkSlot;
+        }
+    }
+
+    return -1;
+}
+
+//Count active unblocked processes.
+//This helps OSS detect when every active worker is blocked.
+int countUnblockedProcesses() {
+    int i;
+    int count = 0;
+
+    for (i = 0; i < MAX_PCB_SIZE; i++) {
+        if (pcbTable[i].occupied == 1 && pcbTable[i].blocked == 0) {
+            count++;
+        }
+    }
+
+    return count;
+}
+
+//Send a grant message to a worker.
+//This is used both for normal memory hits and for completed I/O page faults.
+int sendGrantMessage(int msg_id,
+                     int pid,
+                     int slot,
+                     int address,
+                     int requestType) {
+    struct Message grantMessage;
+
+    grantMessage.mtype = pid;
+    grantMessage.value = MSG_GRANTED;
+    grantMessage.pid = getpid();
+    grantMessage.slot = slot;
+    grantMessage.address = address;
+    grantMessage.requestType = requestType;
+
+    if (msgsnd(msg_id, &grantMessage, sizeof(struct Message) - sizeof(long), 0) == -1) {
+        perror("OSS: Error in msgsnd grant message");
+        return 0;
+    }
+
+    return 1;
+}
+
+//Check the I/O wait queue.
+//If the request at the head is ready, load the page and grant the request.
+void checkIOQueue(int msg_id, unsigned int *clock) {
+    int keepChecking = 1;
+
+    while (keepChecking && ioCount > 0) {
+        struct IORequest request = ioQueue[ioHead];
+
+        long long currentNS = getClockNS(clock);
+
+        if (currentNS < request.readyTimeNS) {
+            keepChecking = 0;
+        } else {
+            request = dequeueIORequest();
+
+            if (request.slot < 0 ||
+                request.slot >= MAX_PCB_SIZE ||
+                pcbTable[request.slot].occupied == 0) {
+                logBoth("OSS: I/O request completed, but process is gone. Dropping request.\n");
+                continue;
+            }
+
+            logBoth("OSS: I/O complete for P%d address %d page %d at time %u:%u\n",
+                    pcbTable[request.slot].localPid,
+                    request.address,
+                    request.page,
+                    clock[0],
+                    clock[1]);
+
+            int frame = loadPageIntoFrame(request.slot,
+                                        request.page,
+                                        request.requestType,
+                                        clock);
+
+            if (request.requestType == REQUEST_WRITE) {
+                frameTable[frame].dirtyBit = 1;
+            }
+
+            pcbTable[request.slot].blocked = 0;
+
+            logBoth("OSS: Unblocking P%d. Address %d is now in frame %d\n",
+                    pcbTable[request.slot].localPid,
+                    request.address,
+                    frame);
+
+            sendGrantMessage(msg_id,
+                             request.pid,
+                             request.slot,
+                             request.address,
+                             request.requestType);
+        }
+    }
 }
 
 // Print the current process table.
@@ -619,12 +871,13 @@ int launchChildProcess(float t,
     return 1;
 }
 
-//Send one turn message to a worker, receive its memory request,
-//update page/frame tables, always grant it, then wait for that worker to terminate.
+//Send one turn message to a worker and receive its reply.
 //
-//Step 5 is where page table and frame table updates start.
-//There is still no I/O wait queue here.
-//There is still no FIFO here.
+//If the worker says it is done, clean it up.
+//If the worker requests a memory address already in memory, grant it.
+//If the worker requests a page not in memory, block it and queue the page fault.
+//
+//In Step 6, page faults are no longer granted immediately.
 int handleWorkerMemoryRequest(int msg_id,
                               int slot,
                               unsigned int *clock,
@@ -641,11 +894,11 @@ int handleWorkerMemoryRequest(int msg_id,
     //Increment the clock before sending the worker a message.
     addToClock(clock, TURN_INCREMENT_NS);
 
-    //Create a message that OSS will send to the worker.
+    //Create the turn message for the worker.
     struct Message msgToChild;
 
     msgToChild.mtype = pid;
-    msgToChild.value = 1;
+    msgToChild.value = MSG_MEMORY_REQUEST;
     msgToChild.pid = getpid();
     msgToChild.slot = slot;
     msgToChild.address = 0;
@@ -671,7 +924,7 @@ int handleWorkerMemoryRequest(int msg_id,
         return 0;
     }
 
-    //Wait for the worker to send back its memory request.
+    //Receive either a memory request or a termination message.
     struct Message msgFromChild;
 
     if (msgrcv(msg_id, &msgFromChild, sizeof(struct Message) - sizeof(long), 1, 0) == -1) {
@@ -688,7 +941,6 @@ int handleWorkerMemoryRequest(int msg_id,
         return 0;
     }
 
-    //Use the slot sent back by the worker, but protect against bad slot values.
     int requestSlot = msgFromChild.slot;
 
     if (requestSlot < 0 || requestSlot >= MAX_PCB_SIZE) {
@@ -699,21 +951,34 @@ int handleWorkerMemoryRequest(int msg_id,
         requestSlot = slot;
     }
 
-    //Figure out whether the request was a read or a write.
+    //If value is 0, the worker says its time is up.
+    if (msgFromChild.value == MSG_TERMINATE) {
+        logBoth("OSS: Worker P%d PID %d says it is terminating at time %u:%u\n",
+                pcbTable[requestSlot].localPid,
+                (int)pid,
+                clock[0],
+                clock[1]);
+
+        waitpid(pid, &status, 0);
+
+        releaseFramesForProcess(requestSlot);
+        clearPCBEntry(requestSlot);
+
+        (*activeChildren)--;
+        (*finishedChildren)++;
+
+        return 1;
+    }
+
     const char *requestString = "read";
 
     if (msgFromChild.requestType == REQUEST_WRITE) {
         requestString = "write";
     }
 
-    //Extract the page number from the requested address.
-    //The assignment says OSS does this by dividing the address by 1024.
     int requestedPage = msgFromChild.address / PAGE_SIZE;
-
-    //Extract the offset too.
     int requestedOffset = msgFromChild.address % PAGE_SIZE;
 
-    //All generated addresses should be valid, but this protects the page table.
     if (requestedPage < 0 || requestedPage >= PAGE_COUNT) {
         logBoth("OSS: Invalid page %d from address %d. Killing worker P%d\n",
                 requestedPage,
@@ -731,7 +996,6 @@ int handleWorkerMemoryRequest(int msg_id,
         return 0;
     }
 
-    //Update simple statistics.
     (*totalRequests)++;
 
     if (msgFromChild.requestType == REQUEST_WRITE) {
@@ -740,7 +1004,6 @@ int handleWorkerMemoryRequest(int msg_id,
         (*totalReads)++;
     }
 
-    //Log the memory request from the worker.
     logBoth("OSS: P%d requesting %s of address %d at time %u:%u\n",
             pcbTable[requestSlot].localPid,
             requestString,
@@ -753,40 +1016,62 @@ int handleWorkerMemoryRequest(int msg_id,
             requestedPage,
             requestedOffset);
 
-    //Check whether this page is already loaded.
     int frame = pcbTable[requestSlot].pageTable[requestedPage];
 
     if (frame == -1) {
-        //The page is not in memory.
-        //For step 5, we load it immediately instead of blocking for I/O.
+        //Page fault.
+        //Step 6 queues this request and does not send a message back yet.
         (*totalPageFaults)++;
 
         logBoth("OSS: Address %d is not in a frame, pagefault\n",
                 msgFromChild.address);
 
-        frame = loadPageIntoFrame(requestSlot,
-                                  requestedPage,
-                                  msgFromChild.requestType);
-    } else {
-        //The page is already in memory.
-        logBoth("OSS: Address %d is already in frame %d\n",
-                msgFromChild.address,
-                frame);
+        logBoth("OSS: Blocking P%d while page %d is brought in from disk\n",
+                pcbTable[requestSlot].localPid,
+                requestedPage);
 
-        //If this is a write, set the dirty bit.
-        if (msgFromChild.requestType == REQUEST_WRITE) {
-            frameTable[frame].dirtyBit = 1;
+        pcbTable[requestSlot].blocked = 1;
 
-            logBoth("OSS: Dirty bit of frame %d set because this was a write\n",
-                    frame);
+        if (!enqueueIORequest(requestSlot,
+                              msgFromChild.pid,
+                              msgFromChild.address,
+                              msgFromChild.requestType,
+                              requestedPage,
+                              clock)) {
+            logBoth("OSS: Could not queue I/O request. Killing P%d\n",
+                    pcbTable[requestSlot].localPid);
+
+            kill(pid, SIGTERM);
+            waitpid(pid, NULL, 0);
+
+            releaseFramesForProcess(requestSlot);
+            clearPCBEntry(requestSlot);
+
+            (*activeChildren)--;
+
+            return 0;
         }
+
+        //No grant is sent here.
+        //The worker remains blocked on msgrcv until checkIOQueue sends the grant later.
+        return 1;
     }
 
-    //Normal memory access still takes 100 ns.
-    //Later, page faults will involve a longer I/O delay.
+    //No page fault.
+    //The page is already loaded, so grant immediately.
+    logBoth("OSS: Address %d is already in frame %d\n",
+            msgFromChild.address,
+            frame);
+
+    if (msgFromChild.requestType == REQUEST_WRITE) {
+        frameTable[frame].dirtyBit = 1;
+
+        logBoth("OSS: Dirty bit of frame %d set because this was a write\n",
+                frame);
+    }
+
     addToClock(clock, MEMORY_ACCESS_NS);
 
-    //Grant the request and mention the frame number.
     if (msgFromChild.requestType == REQUEST_WRITE) {
         logBoth("OSS: Address %d in frame %d, writing data for P%d at time %u:%u\n",
                 msgFromChild.address,
@@ -803,23 +1088,11 @@ int handleWorkerMemoryRequest(int msg_id,
                 clock[1]);
     }
 
-    //Print memory tables here so we can see step 5 actually working.
-    printPageTables();
-    printFrameTable();
-
-    //Now send a grant message back to the worker.
-    struct Message grantMessage;
-
-    grantMessage.mtype = msgFromChild.pid;
-    grantMessage.value = 1;
-    grantMessage.pid = getpid();
-    grantMessage.slot = requestSlot;
-    grantMessage.address = msgFromChild.address;
-    grantMessage.requestType = msgFromChild.requestType;
-
-    if (msgsnd(msg_id, &grantMessage, sizeof(struct Message) - sizeof(long), 0) == -1) {
-        perror("OSS: Error in msgsnd grant message");
-
+    if (!sendGrantMessage(msg_id,
+                          msgFromChild.pid,
+                          requestSlot,
+                          msgFromChild.address,
+                          msgFromChild.requestType)) {
         kill(pid, SIGTERM);
         waitpid(pid, NULL, 0);
 
@@ -830,33 +1103,6 @@ int handleWorkerMemoryRequest(int msg_id,
 
         return 0;
     }
-
-    //Wait for the child process to terminate.
-    //The current worker exits after one granted memory request.
-    if (waitpid(pid, &status, 0) == -1) {
-        perror("OSS: Error in waitpid");
-
-        releaseFramesForProcess(requestSlot);
-        clearPCBEntry(requestSlot);
-
-        (*activeChildren)--;
-
-        return 0;
-    }
-
-    logBoth("OSS: Worker P%d PID %d has terminated.\n",
-            pcbTable[requestSlot].localPid,
-            (int)pid);
-
-    //Release frames owned by this process.
-    //This is required when a process terminates.
-    releaseFramesForProcess(requestSlot);
-
-    //Clear the PCB slot now that the worker is finished.
-    clearPCBEntry(requestSlot);
-
-    (*activeChildren)--;
-    (*finishedChildren)++;
 
     return 1;
 }
@@ -951,6 +1197,7 @@ int main(int argc, char *argv[]) {
 
     initPCBTable();
     initFrameTable();
+    initIOQueue();
 
     logBoth("OSS: starting, PID:%d PPID:%d\n", getpid(), getppid());
     logBoth("OSS called with:\n");
@@ -1076,7 +1323,12 @@ int main(int argc, char *argv[]) {
     //- there are active children still in the system.
     while (launchedChildren < n || activeChildren > 0) {
         long long currentNS = getClockNS(clock);
+        checkIOQueue(msg_id, clock);
 
+        
+        //Refresh currentNS in case checkIOQueue changed anything important.
+        currentNS = getClockNS(clock);
+        
         //Launch as many children as allowed.
         //
         //Conditions:
@@ -1117,8 +1369,8 @@ int main(int argc, char *argv[]) {
         }
 
         //Find the next active worker to message.
-        int slotToMessage = findNextOccupiedPCBSlot(nextMessageSlot);
-
+        int slotToMessage = findNextUnblockedPCBSlot(nextMessageSlot);
+        
         if (slotToMessage != -1) {
             //Advance the round-robin starting point.
             nextMessageSlot = (slotToMessage + 1) % MAX_PCB_SIZE;
@@ -1135,9 +1387,20 @@ int main(int argc, char *argv[]) {
                                         &totalWrites,
                                         &totalPageFaults);
         } else {
-            //No active process is ready to message.
-            //If there are still children left to launch, move time toward the next launch.
-            if (launchedChildren < n) {
+            //No unblocked worker can run right now.
+            //This can happen when every active process is blocked on I/O.
+
+            if (activeChildren > 0 && countUnblockedProcesses() == 0 && !isIOQueueEmpty()) {
+                long long nextReadyNS = getNextIOReadyTime();
+                long long currentNS = getClockNS(clock);
+
+                if (nextReadyNS > currentNS) {
+                    logBoth("OSS: All active processes are blocked. Advancing clock to next I/O completion.\n");
+                    setClockFromNS(clock, nextReadyNS);
+                }
+
+                checkIOQueue(msg_id, clock);
+            } else if (launchedChildren < n) {
                 currentNS = getClockNS(clock);
 
                 if (currentNS < nextLaunchNS) {
@@ -1154,8 +1417,7 @@ int main(int argc, char *argv[]) {
     printPageTables();
     printFrameTable();
 
-    //Print a small step 5 summary.
-    logBoth("\nOSS: Step 5 Summary\n");
+    logBoth("\nOSS: Step 7 Summary\n");
     logBoth("OSS: Children launched: %d\n", launchedChildren);
     logBoth("OSS: Children finished: %d\n", finishedChildren);
     logBoth("OSS: Total memory requests: %d\n", totalRequests);

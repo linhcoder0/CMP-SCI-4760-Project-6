@@ -1,15 +1,15 @@
-OSS: starting, PID:829581 PPID:5357
+OSS: starting, PID:839943 PPID:5357
 OSS called with:
--n 5
--s 2
+-n 18
+-s 18
 -t 1.000
 -i 0.000
 -f log.txt
 OSS: Shared memory clock initialized.
 OSS: Initial clock is 0:0
-OSS: Message queue created with id 21
+OSS: Message queue created with id 24
 
-OSS PID:829581 SysClockS: 0 SysClockNano: 0
+OSS PID:839943 SysClockS: 0 SysClockNano: 0
 Process Table:
 Entry Occupied LocalPID RealPID StartS StartN Blocked
     0        0        0       0      0      0       0
@@ -100,416 +100,1043 @@ Frame Occupied DirtyBit Process Page
    62        0        0      -1   -1
    63        0        0      -1   -1
 
-OSS: Forked worker P1 with PID 829582 in slot 0 at time 0:0
+OSS: Forked worker P1 with PID 839944 in slot 0 at time 0:0
 
-OSS: Forked worker P2 with PID 829583 in slot 1 at time 0:0
-OSS: Sending turn message to worker P1 PID 829582 at time 0:1000
-OSS: P1 requesting write of address 6456 at time 0:1000
-OSS: Address 6456 is page 6 with offset 312
-OSS: Address 6456 is not in a frame, pagefault
+OSS: Forked worker P2 with PID 839945 in slot 1 at time 0:0
+
+OSS: Forked worker P3 with PID 839946 in slot 2 at time 0:0
+
+OSS: Forked worker P4 with PID 839947 in slot 3 at time 0:0
+
+OSS: Forked worker P5 with PID 839948 in slot 4 at time 0:0
+
+OSS: Forked worker P6 with PID 839949 in slot 5 at time 0:0
+
+OSS: Forked worker P7 with PID 839950 in slot 6 at time 0:0
+
+OSS: Forked worker P8 with PID 839951 in slot 7 at time 0:0
+
+OSS: Forked worker P9 with PID 839952 in slot 8 at time 0:0
+
+OSS: Forked worker P10 with PID 839953 in slot 9 at time 0:0
+
+OSS: Forked worker P11 with PID 839954 in slot 10 at time 0:0
+
+OSS: Forked worker P12 with PID 839955 in slot 11 at time 0:0
+
+OSS: Forked worker P13 with PID 839956 in slot 12 at time 0:0
+
+OSS: Forked worker P14 with PID 839957 in slot 13 at time 0:0
+
+OSS: Forked worker P15 with PID 839958 in slot 14 at time 0:0
+
+OSS: Forked worker P16 with PID 839959 in slot 15 at time 0:0
+
+OSS: Forked worker P17 with PID 839960 in slot 16 at time 0:0
+
+OSS: Forked worker P18 with PID 839961 in slot 17 at time 0:0
+OSS: Sending turn message to worker P1 PID 839944 at time 0:10000000
+OSS: P1 requesting read of address 4425 at time 0:10000000
+OSS: Address 4425 is page 4 with offset 329
+OSS: Address 4425 is not in a frame, pagefault
+OSS: Blocking P1 while page 4 is brought in from disk
+OSS: Queued page fault for P1 address 4425 page 4. It will be ready at 24000000 ns
+OSS: Sending turn message to worker P2 PID 839945 at time 0:20000000
+OSS: P2 requesting read of address 11060 at time 0:20000000
+OSS: Address 11060 is page 10 with offset 820
+OSS: Address 11060 is not in a frame, pagefault
+OSS: Blocking P2 while page 10 is brought in from disk
+OSS: Queued page fault for P2 address 11060 page 10. It will be ready at 34000000 ns
+OSS: Sending turn message to worker P3 PID 839946 at time 0:30000000
+OSS: P3 requesting read of address 1452 at time 0:30000000
+OSS: Address 1452 is page 1 with offset 428
+OSS: Address 1452 is not in a frame, pagefault
+OSS: Blocking P3 while page 1 is brought in from disk
+OSS: Queued page fault for P3 address 1452 page 1. It will be ready at 44000000 ns
+OSS: I/O complete for P1 address 4425 page 4 at time 0:30000000
 OSS: Found free frame 0
-OSS: Loaded P1 page 6 into frame 0
-OSS: Address 6456 in frame 0, writing data for P1 at time 0:1100
+OSS: Loaded P1 page 4 into frame 0
+OSS: Unblocking P1. Address 4425 is now in frame 0
+OSS: Sending turn message to worker P4 PID 839947 at time 0:40000000
+OSS: P4 requesting read of address 13277 at time 0:40000000
+OSS: Address 13277 is page 12 with offset 989
+OSS: Address 13277 is not in a frame, pagefault
+OSS: Blocking P4 while page 12 is brought in from disk
+OSS: Queued page fault for P4 address 13277 page 12. It will be ready at 54000000 ns
+OSS: I/O complete for P2 address 11060 page 10 at time 0:40000000
+OSS: Found free frame 1
+OSS: Loaded P2 page 10 into frame 1
+OSS: Unblocking P2. Address 11060 is now in frame 1
+OSS: Sending turn message to worker P5 PID 839948 at time 0:50000000
+OSS: P5 requesting write of address 16287 at time 0:50000000
+OSS: Address 16287 is page 15 with offset 927
+OSS: Address 16287 is not in a frame, pagefault
+OSS: Blocking P5 while page 15 is brought in from disk
+OSS: Queued page fault for P5 address 16287 page 15. It will be ready at 64000000 ns
+OSS: I/O complete for P3 address 1452 page 1 at time 0:50000000
+OSS: Found free frame 2
+OSS: Loaded P3 page 1 into frame 2
+OSS: Unblocking P3. Address 1452 is now in frame 2
+OSS: Sending turn message to worker P6 PID 839949 at time 0:60000000
+OSS: P6 requesting read of address 12605 at time 0:60000000
+OSS: Address 12605 is page 12 with offset 317
+OSS: Address 12605 is not in a frame, pagefault
+OSS: Blocking P6 while page 12 is brought in from disk
+OSS: Queued page fault for P6 address 12605 page 12. It will be ready at 74000000 ns
+OSS: I/O complete for P4 address 13277 page 12 at time 0:60000000
+OSS: Found free frame 3
+OSS: Loaded P4 page 12 into frame 3
+OSS: Unblocking P4. Address 13277 is now in frame 3
+OSS: Sending turn message to worker P7 PID 839950 at time 0:70000000
+OSS: P7 requesting write of address 2811 at time 0:70000000
+OSS: Address 2811 is page 2 with offset 763
+OSS: Address 2811 is not in a frame, pagefault
+OSS: Blocking P7 while page 2 is brought in from disk
+OSS: Queued page fault for P7 address 2811 page 2. It will be ready at 84000000 ns
+OSS: I/O complete for P5 address 16287 page 15 at time 0:70000000
+OSS: Found free frame 4
+OSS: Dirty bit of frame 4 set because P5 is writing page 15
+OSS: Loaded P5 page 15 into frame 4
+OSS: Unblocking P5. Address 16287 is now in frame 4
+OSS: Sending turn message to worker P8 PID 839951 at time 0:80000000
+OSS: P8 requesting read of address 1886 at time 0:80000000
+OSS: Address 1886 is page 1 with offset 862
+OSS: Address 1886 is not in a frame, pagefault
+OSS: Blocking P8 while page 1 is brought in from disk
+OSS: Queued page fault for P8 address 1886 page 1. It will be ready at 94000000 ns
+OSS: I/O complete for P6 address 12605 page 12 at time 0:80000000
+OSS: Found free frame 5
+OSS: Loaded P6 page 12 into frame 5
+OSS: Unblocking P6. Address 12605 is now in frame 5
+OSS: Sending turn message to worker P9 PID 839952 at time 0:90000000
+OSS: P9 requesting read of address 15697 at time 0:90000000
+OSS: Address 15697 is page 15 with offset 337
+OSS: Address 15697 is not in a frame, pagefault
+OSS: Blocking P9 while page 15 is brought in from disk
+OSS: Queued page fault for P9 address 15697 page 15. It will be ready at 104000000 ns
+OSS: I/O complete for P7 address 2811 page 2 at time 0:90000000
+OSS: Found free frame 6
+OSS: Dirty bit of frame 6 set because P7 is writing page 2
+OSS: Loaded P7 page 2 into frame 6
+OSS: Unblocking P7. Address 2811 is now in frame 6
+OSS: Sending turn message to worker P10 PID 839953 at time 0:100000000
+OSS: P10 requesting read of address 9235 at time 0:100000000
+OSS: Address 9235 is page 9 with offset 19
+OSS: Address 9235 is not in a frame, pagefault
+OSS: Blocking P10 while page 9 is brought in from disk
+OSS: Queued page fault for P10 address 9235 page 9. It will be ready at 114000000 ns
+OSS: I/O complete for P8 address 1886 page 1 at time 0:100000000
+OSS: Found free frame 7
+OSS: Loaded P8 page 1 into frame 7
+OSS: Unblocking P8. Address 1886 is now in frame 7
+OSS: Sending turn message to worker P11 PID 839954 at time 0:110000000
+OSS: P11 requesting write of address 189 at time 0:110000000
+OSS: Address 189 is page 0 with offset 189
+OSS: Address 189 is not in a frame, pagefault
+OSS: Blocking P11 while page 0 is brought in from disk
+OSS: Queued page fault for P11 address 189 page 0. It will be ready at 124000000 ns
+OSS: I/O complete for P9 address 15697 page 15 at time 0:110000000
+OSS: Found free frame 8
+OSS: Loaded P9 page 15 into frame 8
+OSS: Unblocking P9. Address 15697 is now in frame 8
+OSS: Sending turn message to worker P12 PID 839955 at time 0:120000000
+OSS: P12 requesting read of address 15721 at time 0:120000000
+OSS: Address 15721 is page 15 with offset 361
+OSS: Address 15721 is not in a frame, pagefault
+OSS: Blocking P12 while page 15 is brought in from disk
+OSS: Queued page fault for P12 address 15721 page 15. It will be ready at 134000000 ns
+OSS: I/O complete for P10 address 9235 page 9 at time 0:120000000
+OSS: Found free frame 9
+OSS: Loaded P10 page 9 into frame 9
+OSS: Unblocking P10. Address 9235 is now in frame 9
+OSS: Sending turn message to worker P13 PID 839956 at time 0:130000000
+OSS: P13 requesting read of address 5051 at time 0:130000000
+OSS: Address 5051 is page 4 with offset 955
+OSS: Address 5051 is not in a frame, pagefault
+OSS: Blocking P13 while page 4 is brought in from disk
+OSS: Queued page fault for P13 address 5051 page 4. It will be ready at 144000000 ns
+OSS: I/O complete for P11 address 189 page 0 at time 0:130000000
+OSS: Found free frame 10
+OSS: Dirty bit of frame 10 set because P11 is writing page 0
+OSS: Loaded P11 page 0 into frame 10
+OSS: Unblocking P11. Address 189 is now in frame 10
+OSS: Sending turn message to worker P14 PID 839957 at time 0:140000000
+OSS: P14 requesting write of address 3600 at time 0:140000000
+OSS: Address 3600 is page 3 with offset 528
+OSS: Address 3600 is not in a frame, pagefault
+OSS: Blocking P14 while page 3 is brought in from disk
+OSS: Queued page fault for P14 address 3600 page 3. It will be ready at 154000000 ns
+OSS: I/O complete for P12 address 15721 page 15 at time 0:140000000
+OSS: Found free frame 11
+OSS: Loaded P12 page 15 into frame 11
+OSS: Unblocking P12. Address 15721 is now in frame 11
+OSS: Sending turn message to worker P15 PID 839958 at time 0:150000000
+OSS: P15 requesting read of address 8293 at time 0:150000000
+OSS: Address 8293 is page 8 with offset 101
+OSS: Address 8293 is not in a frame, pagefault
+OSS: Blocking P15 while page 8 is brought in from disk
+OSS: Queued page fault for P15 address 8293 page 8. It will be ready at 164000000 ns
+OSS: I/O complete for P13 address 5051 page 4 at time 0:150000000
+OSS: Found free frame 12
+OSS: Loaded P13 page 4 into frame 12
+OSS: Unblocking P13. Address 5051 is now in frame 12
+OSS: Sending turn message to worker P16 PID 839959 at time 0:160000000
+OSS: P16 requesting read of address 1435 at time 0:160000000
+OSS: Address 1435 is page 1 with offset 411
+OSS: Address 1435 is not in a frame, pagefault
+OSS: Blocking P16 while page 1 is brought in from disk
+OSS: Queued page fault for P16 address 1435 page 1. It will be ready at 174000000 ns
+OSS: I/O complete for P14 address 3600 page 3 at time 0:160000000
+OSS: Found free frame 13
+OSS: Dirty bit of frame 13 set because P14 is writing page 3
+OSS: Loaded P14 page 3 into frame 13
+OSS: Unblocking P14. Address 3600 is now in frame 13
+OSS: Sending turn message to worker P17 PID 839960 at time 0:170000000
+OSS: P17 requesting read of address 11858 at time 0:170000000
+OSS: Address 11858 is page 11 with offset 594
+OSS: Address 11858 is not in a frame, pagefault
+OSS: Blocking P17 while page 11 is brought in from disk
+OSS: Queued page fault for P17 address 11858 page 11. It will be ready at 184000000 ns
+OSS: I/O complete for P15 address 8293 page 8 at time 0:170000000
+OSS: Found free frame 14
+OSS: Loaded P15 page 8 into frame 14
+OSS: Unblocking P15. Address 8293 is now in frame 14
+OSS: Sending turn message to worker P18 PID 839961 at time 0:180000000
+OSS: P18 requesting read of address 8705 at time 0:180000000
+OSS: Address 8705 is page 8 with offset 513
+OSS: Address 8705 is not in a frame, pagefault
+OSS: Blocking P18 while page 8 is brought in from disk
+OSS: Queued page fault for P18 address 8705 page 8. It will be ready at 194000000 ns
+OSS: I/O complete for P16 address 1435 page 1 at time 0:180000000
+OSS: Found free frame 15
+OSS: Loaded P16 page 1 into frame 15
+OSS: Unblocking P16. Address 1435 is now in frame 15
+OSS: Sending turn message to worker P1 PID 839944 at time 0:190000000
+OSS: P1 requesting write of address 8255 at time 0:190000000
+OSS: Address 8255 is page 8 with offset 63
+OSS: Address 8255 is not in a frame, pagefault
+OSS: Blocking P1 while page 8 is brought in from disk
+OSS: Queued page fault for P1 address 8255 page 8. It will be ready at 204000000 ns
+OSS: I/O complete for P17 address 11858 page 11 at time 0:190000000
+OSS: Found free frame 16
+OSS: Loaded P17 page 11 into frame 16
+OSS: Unblocking P17. Address 11858 is now in frame 16
+OSS: Sending turn message to worker P2 PID 839945 at time 0:200000000
+OSS: P2 requesting read of address 1720 at time 0:200000000
+OSS: Address 1720 is page 1 with offset 696
+OSS: Address 1720 is not in a frame, pagefault
+OSS: Blocking P2 while page 1 is brought in from disk
+OSS: Queued page fault for P2 address 1720 page 1. It will be ready at 214000000 ns
+OSS: I/O complete for P18 address 8705 page 8 at time 0:200000000
+OSS: Found free frame 17
+OSS: Loaded P18 page 8 into frame 17
+OSS: Unblocking P18. Address 8705 is now in frame 17
+OSS: Sending turn message to worker P3 PID 839946 at time 0:210000000
+OSS: P3 requesting read of address 10399 at time 0:210000000
+OSS: Address 10399 is page 10 with offset 159
+OSS: Address 10399 is not in a frame, pagefault
+OSS: Blocking P3 while page 10 is brought in from disk
+OSS: Queued page fault for P3 address 10399 page 10. It will be ready at 224000000 ns
+OSS: I/O complete for P1 address 8255 page 8 at time 0:210000000
+OSS: Found free frame 18
+OSS: Dirty bit of frame 18 set because P1 is writing page 8
+OSS: Loaded P1 page 8 into frame 18
+OSS: Unblocking P1. Address 8255 is now in frame 18
+OSS: Sending turn message to worker P4 PID 839947 at time 0:220000000
+OSS: P4 requesting read of address 6742 at time 0:220000000
+OSS: Address 6742 is page 6 with offset 598
+OSS: Address 6742 is not in a frame, pagefault
+OSS: Blocking P4 while page 6 is brought in from disk
+OSS: Queued page fault for P4 address 6742 page 6. It will be ready at 234000000 ns
+OSS: I/O complete for P2 address 1720 page 1 at time 0:220000000
+OSS: Found free frame 19
+OSS: Loaded P2 page 1 into frame 19
+OSS: Unblocking P2. Address 1720 is now in frame 19
+OSS: Sending turn message to worker P5 PID 839948 at time 0:230000000
+OSS: P5 requesting read of address 15391 at time 0:230000000
+OSS: Address 15391 is page 15 with offset 31
+OSS: Address 15391 is already in frame 4
+OSS: Address 15391 in frame 4, giving data to P5 at time 0:230000100
+OSS: I/O complete for P3 address 10399 page 10 at time 0:230000100
+OSS: Found free frame 20
+OSS: Loaded P3 page 10 into frame 20
+OSS: Unblocking P3. Address 10399 is now in frame 20
+OSS: Sending turn message to worker P6 PID 839949 at time 0:240000100
+OSS: P6 requesting read of address 11109 at time 0:240000100
+OSS: Address 11109 is page 10 with offset 869
+OSS: Address 11109 is not in a frame, pagefault
+OSS: Blocking P6 while page 10 is brought in from disk
+OSS: Queued page fault for P6 address 11109 page 10. It will be ready at 254000100 ns
+OSS: I/O complete for P4 address 6742 page 6 at time 0:240000100
+OSS: Found free frame 21
+OSS: Loaded P4 page 6 into frame 21
+OSS: Unblocking P4. Address 6742 is now in frame 21
+OSS: Sending turn message to worker P7 PID 839950 at time 0:250000100
+OSS: P7 requesting read of address 4853 at time 0:250000100
+OSS: Address 4853 is page 4 with offset 757
+OSS: Address 4853 is not in a frame, pagefault
+OSS: Blocking P7 while page 4 is brought in from disk
+OSS: Queued page fault for P7 address 4853 page 4. It will be ready at 264000100 ns
+OSS: Sending turn message to worker P8 PID 839951 at time 0:260000100
+OSS: P8 requesting read of address 13722 at time 0:260000100
+OSS: Address 13722 is page 13 with offset 410
+OSS: Address 13722 is not in a frame, pagefault
+OSS: Blocking P8 while page 13 is brought in from disk
+OSS: Queued page fault for P8 address 13722 page 13. It will be ready at 274000100 ns
+OSS: I/O complete for P6 address 11109 page 10 at time 0:260000100
+OSS: Found free frame 22
+OSS: Loaded P6 page 10 into frame 22
+OSS: Unblocking P6. Address 11109 is now in frame 22
+OSS: Sending turn message to worker P9 PID 839952 at time 0:270000100
+OSS: P9 requesting write of address 13783 at time 0:270000100
+OSS: Address 13783 is page 13 with offset 471
+OSS: Address 13783 is not in a frame, pagefault
+OSS: Blocking P9 while page 13 is brought in from disk
+OSS: Queued page fault for P9 address 13783 page 13. It will be ready at 284000100 ns
+OSS: I/O complete for P7 address 4853 page 4 at time 0:270000100
+OSS: Found free frame 23
+OSS: Loaded P7 page 4 into frame 23
+OSS: Unblocking P7. Address 4853 is now in frame 23
+OSS: Sending turn message to worker P10 PID 839953 at time 0:280000100
+OSS: P10 requesting read of address 14346 at time 0:280000100
+OSS: Address 14346 is page 14 with offset 10
+OSS: Address 14346 is not in a frame, pagefault
+OSS: Blocking P10 while page 14 is brought in from disk
+OSS: Queued page fault for P10 address 14346 page 14. It will be ready at 294000100 ns
+OSS: I/O complete for P8 address 13722 page 13 at time 0:280000100
+OSS: Found free frame 24
+OSS: Loaded P8 page 13 into frame 24
+OSS: Unblocking P8. Address 13722 is now in frame 24
+OSS: Sending turn message to worker P11 PID 839954 at time 0:290000100
+OSS: P11 requesting read of address 10446 at time 0:290000100
+OSS: Address 10446 is page 10 with offset 206
+OSS: Address 10446 is not in a frame, pagefault
+OSS: Blocking P11 while page 10 is brought in from disk
+OSS: Queued page fault for P11 address 10446 page 10. It will be ready at 304000100 ns
+OSS: I/O complete for P9 address 13783 page 13 at time 0:290000100
+OSS: Found free frame 25
+OSS: Dirty bit of frame 25 set because P9 is writing page 13
+OSS: Loaded P9 page 13 into frame 25
+OSS: Unblocking P9. Address 13783 is now in frame 25
+OSS: Sending turn message to worker P12 PID 839955 at time 0:300000100
+OSS: P12 requesting read of address 4888 at time 0:300000100
+OSS: Address 4888 is page 4 with offset 792
+OSS: Address 4888 is not in a frame, pagefault
+OSS: Blocking P12 while page 4 is brought in from disk
+OSS: Queued page fault for P12 address 4888 page 4. It will be ready at 314000100 ns
+OSS: I/O complete for P10 address 14346 page 14 at time 0:300000100
+OSS: Found free frame 26
+OSS: Loaded P10 page 14 into frame 26
+OSS: Unblocking P10. Address 14346 is now in frame 26
+OSS: Sending turn message to worker P13 PID 839956 at time 0:310000100
+OSS: P13 requesting write of address 16227 at time 0:310000100
+OSS: Address 16227 is page 15 with offset 867
+OSS: Address 16227 is not in a frame, pagefault
+OSS: Blocking P13 while page 15 is brought in from disk
+OSS: Queued page fault for P13 address 16227 page 15. It will be ready at 324000100 ns
+OSS: I/O complete for P11 address 10446 page 10 at time 0:310000100
+OSS: Found free frame 27
+OSS: Loaded P11 page 10 into frame 27
+OSS: Unblocking P11. Address 10446 is now in frame 27
+OSS: Sending turn message to worker P14 PID 839957 at time 0:320000100
+OSS: P14 requesting read of address 3675 at time 0:320000100
+OSS: Address 3675 is page 3 with offset 603
+OSS: Address 3675 is already in frame 13
+OSS: Address 3675 in frame 13, giving data to P14 at time 0:320000200
+OSS: I/O complete for P12 address 4888 page 4 at time 0:320000200
+OSS: Found free frame 28
+OSS: Loaded P12 page 4 into frame 28
+OSS: Unblocking P12. Address 4888 is now in frame 28
+OSS: Sending turn message to worker P15 PID 839958 at time 0:330000200
+OSS: P15 requesting read of address 820 at time 0:330000200
+OSS: Address 820 is page 0 with offset 820
+OSS: Address 820 is not in a frame, pagefault
+OSS: Blocking P15 while page 0 is brought in from disk
+OSS: Queued page fault for P15 address 820 page 0. It will be ready at 344000200 ns
+OSS: I/O complete for P13 address 16227 page 15 at time 0:330000200
+OSS: Found free frame 29
+OSS: Dirty bit of frame 29 set because P13 is writing page 15
+OSS: Loaded P13 page 15 into frame 29
+OSS: Unblocking P13. Address 16227 is now in frame 29
+OSS: Sending turn message to worker P16 PID 839959 at time 0:340000200
+OSS: P16 requesting write of address 2746 at time 0:340000200
+OSS: Address 2746 is page 2 with offset 698
+OSS: Address 2746 is not in a frame, pagefault
+OSS: Blocking P16 while page 2 is brought in from disk
+OSS: Queued page fault for P16 address 2746 page 2. It will be ready at 354000200 ns
+OSS: Sending turn message to worker P17 PID 839960 at time 0:350000200
+OSS: P17 requesting write of address 5784 at time 0:350000200
+OSS: Address 5784 is page 5 with offset 664
+OSS: Address 5784 is not in a frame, pagefault
+OSS: Blocking P17 while page 5 is brought in from disk
+OSS: Queued page fault for P17 address 5784 page 5. It will be ready at 364000200 ns
+OSS: I/O complete for P15 address 820 page 0 at time 0:350000200
+OSS: Found free frame 30
+OSS: Loaded P15 page 0 into frame 30
+OSS: Unblocking P15. Address 820 is now in frame 30
+OSS: Sending turn message to worker P18 PID 839961 at time 0:360000200
+OSS: P18 requesting read of address 7382 at time 0:360000200
+OSS: Address 7382 is page 7 with offset 214
+OSS: Address 7382 is not in a frame, pagefault
+OSS: Blocking P18 while page 7 is brought in from disk
+OSS: Queued page fault for P18 address 7382 page 7. It will be ready at 374000200 ns
+OSS: I/O complete for P16 address 2746 page 2 at time 0:360000200
+OSS: Found free frame 31
+OSS: Dirty bit of frame 31 set because P16 is writing page 2
+OSS: Loaded P16 page 2 into frame 31
+OSS: Unblocking P16. Address 2746 is now in frame 31
+OSS: Sending turn message to worker P1 PID 839944 at time 0:370000200
+OSS: P1 requesting read of address 13564 at time 0:370000200
+OSS: Address 13564 is page 13 with offset 252
+OSS: Address 13564 is not in a frame, pagefault
+OSS: Blocking P1 while page 13 is brought in from disk
+OSS: Queued page fault for P1 address 13564 page 13. It will be ready at 384000200 ns
+OSS: I/O complete for P17 address 5784 page 5 at time 0:370000200
+OSS: Found free frame 32
+OSS: Dirty bit of frame 32 set because P17 is writing page 5
+OSS: Loaded P17 page 5 into frame 32
+OSS: Unblocking P17. Address 5784 is now in frame 32
+OSS: Sending turn message to worker P2 PID 839945 at time 0:380000200
+OSS: P2 requesting write of address 15654 at time 0:380000200
+OSS: Address 15654 is page 15 with offset 294
+OSS: Address 15654 is not in a frame, pagefault
+OSS: Blocking P2 while page 15 is brought in from disk
+OSS: Queued page fault for P2 address 15654 page 15. It will be ready at 394000200 ns
+OSS: I/O complete for P18 address 7382 page 7 at time 0:380000200
+OSS: Found free frame 33
+OSS: Loaded P18 page 7 into frame 33
+OSS: Unblocking P18. Address 7382 is now in frame 33
+OSS: Sending turn message to worker P3 PID 839946 at time 0:390000200
+OSS: P3 requesting write of address 1539 at time 0:390000200
+OSS: Address 1539 is page 1 with offset 515
+OSS: Address 1539 is already in frame 2
+OSS: Dirty bit of frame 2 set because this was a write
+OSS: Address 1539 in frame 2, writing data for P3 at time 0:390000300
+OSS: I/O complete for P1 address 13564 page 13 at time 0:390000300
+OSS: Found free frame 34
+OSS: Loaded P1 page 13 into frame 34
+OSS: Unblocking P1. Address 13564 is now in frame 34
+OSS: Sending turn message to worker P4 PID 839947 at time 0:400000300
+OSS: P4 requesting read of address 3569 at time 0:400000300
+OSS: Address 3569 is page 3 with offset 497
+OSS: Address 3569 is not in a frame, pagefault
+OSS: Blocking P4 while page 3 is brought in from disk
+OSS: Queued page fault for P4 address 3569 page 3. It will be ready at 414000300 ns
+OSS: I/O complete for P2 address 15654 page 15 at time 0:400000300
+OSS: Found free frame 35
+OSS: Dirty bit of frame 35 set because P2 is writing page 15
+OSS: Loaded P2 page 15 into frame 35
+OSS: Unblocking P2. Address 15654 is now in frame 35
+OSS: Sending turn message to worker P5 PID 839948 at time 0:410000300
+OSS: P5 requesting write of address 6942 at time 0:410000300
+OSS: Address 6942 is page 6 with offset 798
+OSS: Address 6942 is not in a frame, pagefault
+OSS: Blocking P5 while page 6 is brought in from disk
+OSS: Queued page fault for P5 address 6942 page 6. It will be ready at 424000300 ns
+OSS: Sending turn message to worker P6 PID 839949 at time 0:420000300
+OSS: P6 requesting write of address 11225 at time 0:420000300
+OSS: Address 11225 is page 10 with offset 985
+OSS: Address 11225 is already in frame 22
+OSS: Dirty bit of frame 22 set because this was a write
+OSS: Address 11225 in frame 22, writing data for P6 at time 0:420000400
+OSS: I/O complete for P4 address 3569 page 3 at time 0:420000400
+OSS: Found free frame 36
+OSS: Loaded P4 page 3 into frame 36
+OSS: Unblocking P4. Address 3569 is now in frame 36
+OSS: Sending turn message to worker P7 PID 839950 at time 0:430000400
+OSS: P7 requesting read of address 13381 at time 0:430000400
+OSS: Address 13381 is page 13 with offset 69
+OSS: Address 13381 is not in a frame, pagefault
+OSS: Blocking P7 while page 13 is brought in from disk
+OSS: Queued page fault for P7 address 13381 page 13. It will be ready at 444000400 ns
+OSS: I/O complete for P5 address 6942 page 6 at time 0:430000400
+OSS: Found free frame 37
+OSS: Dirty bit of frame 37 set because P5 is writing page 6
+OSS: Loaded P5 page 6 into frame 37
+OSS: Unblocking P5. Address 6942 is now in frame 37
+OSS: Sending turn message to worker P8 PID 839951 at time 0:440000400
+OSS: P8 requesting read of address 3890 at time 0:440000400
+OSS: Address 3890 is page 3 with offset 818
+OSS: Address 3890 is not in a frame, pagefault
+OSS: Blocking P8 while page 3 is brought in from disk
+OSS: Queued page fault for P8 address 3890 page 3. It will be ready at 454000400 ns
+OSS: Sending turn message to worker P9 PID 839952 at time 0:450000400
+OSS: P9 requesting read of address 5585 at time 0:450000400
+OSS: Address 5585 is page 5 with offset 465
+OSS: Address 5585 is not in a frame, pagefault
+OSS: Blocking P9 while page 5 is brought in from disk
+OSS: Queued page fault for P9 address 5585 page 5. It will be ready at 464000400 ns
+OSS: I/O complete for P7 address 13381 page 13 at time 0:450000400
+OSS: Found free frame 38
+OSS: Loaded P7 page 13 into frame 38
+OSS: Unblocking P7. Address 13381 is now in frame 38
+OSS: Sending turn message to worker P10 PID 839953 at time 0:460000400
+OSS: P10 requesting write of address 9202 at time 0:460000400
+OSS: Address 9202 is page 8 with offset 1010
+OSS: Address 9202 is not in a frame, pagefault
+OSS: Blocking P10 while page 8 is brought in from disk
+OSS: Queued page fault for P10 address 9202 page 8. It will be ready at 474000400 ns
+OSS: I/O complete for P8 address 3890 page 3 at time 0:460000400
+OSS: Found free frame 39
+OSS: Loaded P8 page 3 into frame 39
+OSS: Unblocking P8. Address 3890 is now in frame 39
+OSS: Sending turn message to worker P11 PID 839954 at time 0:470000400
+OSS: P11 requesting read of address 15605 at time 0:470000400
+OSS: Address 15605 is page 15 with offset 245
+OSS: Address 15605 is not in a frame, pagefault
+OSS: Blocking P11 while page 15 is brought in from disk
+OSS: Queued page fault for P11 address 15605 page 15. It will be ready at 484000400 ns
+OSS: I/O complete for P9 address 5585 page 5 at time 0:470000400
+OSS: Found free frame 40
+OSS: Loaded P9 page 5 into frame 40
+OSS: Unblocking P9. Address 5585 is now in frame 40
+OSS: Sending turn message to worker P12 PID 839955 at time 0:480000400
+OSS: P12 requesting write of address 4577 at time 0:480000400
+OSS: Address 4577 is page 4 with offset 481
+OSS: Address 4577 is already in frame 28
+OSS: Dirty bit of frame 28 set because this was a write
+OSS: Address 4577 in frame 28, writing data for P12 at time 0:480000500
+OSS: I/O complete for P10 address 9202 page 8 at time 0:480000500
+OSS: Found free frame 41
+OSS: Dirty bit of frame 41 set because P10 is writing page 8
+OSS: Loaded P10 page 8 into frame 41
+OSS: Unblocking P10. Address 9202 is now in frame 41
+OSS: Sending turn message to worker P13 PID 839956 at time 0:490000500
+OSS: P13 requesting read of address 1901 at time 0:490000500
+OSS: Address 1901 is page 1 with offset 877
+OSS: Address 1901 is not in a frame, pagefault
+OSS: Blocking P13 while page 1 is brought in from disk
+OSS: Queued page fault for P13 address 1901 page 1. It will be ready at 504000500 ns
+OSS: I/O complete for P11 address 15605 page 15 at time 0:490000500
+OSS: Found free frame 42
+OSS: Loaded P11 page 15 into frame 42
+OSS: Unblocking P11. Address 15605 is now in frame 42
+OSS: Sending turn message to worker P14 PID 839957 at time 0:500000500
+OSS: P14 requesting write of address 482 at time 0:500000500
+OSS: Address 482 is page 0 with offset 482
+OSS: Address 482 is not in a frame, pagefault
+OSS: Blocking P14 while page 0 is brought in from disk
+OSS: Queued page fault for P14 address 482 page 0. It will be ready at 514000500 ns
+OSS: Sending turn message to worker P15 PID 839958 at time 0:510000500
+OSS: P15 requesting read of address 8927 at time 0:510000500
+OSS: Address 8927 is page 8 with offset 735
+OSS: Address 8927 is already in frame 14
+OSS: Address 8927 in frame 14, giving data to P15 at time 0:510000600
+OSS: I/O complete for P13 address 1901 page 1 at time 0:510000600
+OSS: Found free frame 43
+OSS: Loaded P13 page 1 into frame 43
+OSS: Unblocking P13. Address 1901 is now in frame 43
+OSS: Sending turn message to worker P16 PID 839959 at time 0:520000600
+OSS: P16 requesting write of address 2738 at time 0:520000600
+OSS: Address 2738 is page 2 with offset 690
+OSS: Address 2738 is already in frame 31
+OSS: Dirty bit of frame 31 set because this was a write
+OSS: Address 2738 in frame 31, writing data for P16 at time 0:520000700
+OSS: I/O complete for P14 address 482 page 0 at time 0:520000700
+OSS: Found free frame 44
+OSS: Dirty bit of frame 44 set because P14 is writing page 0
+OSS: Loaded P14 page 0 into frame 44
+OSS: Unblocking P14. Address 482 is now in frame 44
+OSS: Sending turn message to worker P17 PID 839960 at time 0:530000700
+OSS: P17 requesting read of address 8432 at time 0:530000700
+OSS: Address 8432 is page 8 with offset 240
+OSS: Address 8432 is not in a frame, pagefault
+OSS: Blocking P17 while page 8 is brought in from disk
+OSS: Queued page fault for P17 address 8432 page 8. It will be ready at 544000700 ns
+OSS: Sending turn message to worker P18 PID 839961 at time 0:540000700
+OSS: P18 requesting read of address 890 at time 0:540000700
+OSS: Address 890 is page 0 with offset 890
+OSS: Address 890 is not in a frame, pagefault
+OSS: Blocking P18 while page 0 is brought in from disk
+OSS: Queued page fault for P18 address 890 page 0. It will be ready at 554000700 ns
+OSS: Sending turn message to worker P1 PID 839944 at time 0:550000700
+OSS: P1 requesting read of address 5761 at time 0:550000700
+OSS: Address 5761 is page 5 with offset 641
+OSS: Address 5761 is not in a frame, pagefault
+OSS: Blocking P1 while page 5 is brought in from disk
+OSS: Queued page fault for P1 address 5761 page 5. It will be ready at 564000700 ns
+OSS: I/O complete for P17 address 8432 page 8 at time 0:550000700
+OSS: Found free frame 45
+OSS: Loaded P17 page 8 into frame 45
+OSS: Unblocking P17. Address 8432 is now in frame 45
+OSS: Sending turn message to worker P2 PID 839945 at time 0:560000700
+OSS: P2 requesting read of address 14541 at time 0:560000700
+OSS: Address 14541 is page 14 with offset 205
+OSS: Address 14541 is not in a frame, pagefault
+OSS: Blocking P2 while page 14 is brought in from disk
+OSS: Queued page fault for P2 address 14541 page 14. It will be ready at 574000700 ns
+OSS: I/O complete for P18 address 890 page 0 at time 0:560000700
+OSS: Found free frame 46
+OSS: Loaded P18 page 0 into frame 46
+OSS: Unblocking P18. Address 890 is now in frame 46
+OSS: Sending turn message to worker P3 PID 839946 at time 0:570000700
+OSS: P3 requesting write of address 10370 at time 0:570000700
+OSS: Address 10370 is page 10 with offset 130
+OSS: Address 10370 is already in frame 20
+OSS: Dirty bit of frame 20 set because this was a write
+OSS: Address 10370 in frame 20, writing data for P3 at time 0:570000800
+OSS: I/O complete for P1 address 5761 page 5 at time 0:570000800
+OSS: Found free frame 47
+OSS: Loaded P1 page 5 into frame 47
+OSS: Unblocking P1. Address 5761 is now in frame 47
+OSS: Sending turn message to worker P4 PID 839947 at time 0:580000800
+OSS: P4 requesting write of address 2523 at time 0:580000800
+OSS: Address 2523 is page 2 with offset 475
+OSS: Address 2523 is not in a frame, pagefault
+OSS: Blocking P4 while page 2 is brought in from disk
+OSS: Queued page fault for P4 address 2523 page 2. It will be ready at 594000800 ns
+OSS: I/O complete for P2 address 14541 page 14 at time 0:580000800
+OSS: Found free frame 48
+OSS: Loaded P2 page 14 into frame 48
+OSS: Unblocking P2. Address 14541 is now in frame 48
+OSS: Sending turn message to worker P5 PID 839948 at time 0:590000800
+OSS: P5 requesting write of address 12344 at time 0:590000800
+OSS: Address 12344 is page 12 with offset 56
+OSS: Address 12344 is not in a frame, pagefault
+OSS: Blocking P5 while page 12 is brought in from disk
+OSS: Queued page fault for P5 address 12344 page 12. It will be ready at 604000800 ns
+OSS: Sending turn message to worker P6 PID 839949 at time 0:600000800
+OSS: P6 requesting read of address 11199 at time 0:600000800
+OSS: Address 11199 is page 10 with offset 959
+OSS: Address 11199 is already in frame 22
+OSS: Address 11199 in frame 22, giving data to P6 at time 0:600000900
+OSS: I/O complete for P4 address 2523 page 2 at time 0:600000900
+OSS: Found free frame 49
+OSS: Dirty bit of frame 49 set because P4 is writing page 2
+OSS: Loaded P4 page 2 into frame 49
+OSS: Unblocking P4. Address 2523 is now in frame 49
+OSS: Sending turn message to worker P7 PID 839950 at time 0:610000900
+OSS: P7 requesting read of address 4869 at time 0:610000900
+OSS: Address 4869 is page 4 with offset 773
+OSS: Address 4869 is already in frame 23
+OSS: Address 4869 in frame 23, giving data to P7 at time 0:610001000
+OSS: I/O complete for P5 address 12344 page 12 at time 0:610001000
+OSS: Found free frame 50
+OSS: Dirty bit of frame 50 set because P5 is writing page 12
+OSS: Loaded P5 page 12 into frame 50
+OSS: Unblocking P5. Address 12344 is now in frame 50
+OSS: Sending turn message to worker P8 PID 839951 at time 0:620001000
+OSS: P8 requesting read of address 2640 at time 0:620001000
+OSS: Address 2640 is page 2 with offset 592
+OSS: Address 2640 is not in a frame, pagefault
+OSS: Blocking P8 while page 2 is brought in from disk
+OSS: Queued page fault for P8 address 2640 page 2. It will be ready at 634001000 ns
+OSS: Sending turn message to worker P9 PID 839952 at time 0:630001000
+OSS: P9 requesting write of address 9076 at time 0:630001000
+OSS: Address 9076 is page 8 with offset 884
+OSS: Address 9076 is not in a frame, pagefault
+OSS: Blocking P9 while page 8 is brought in from disk
+OSS: Queued page fault for P9 address 9076 page 8. It will be ready at 644001000 ns
+OSS: Sending turn message to worker P10 PID 839953 at time 0:640001000
+OSS: P10 requesting read of address 11290 at time 0:640001000
+OSS: Address 11290 is page 11 with offset 26
+OSS: Address 11290 is not in a frame, pagefault
+OSS: Blocking P10 while page 11 is brought in from disk
+OSS: Queued page fault for P10 address 11290 page 11. It will be ready at 654001000 ns
+OSS: I/O complete for P8 address 2640 page 2 at time 0:640001000
+OSS: Found free frame 51
+OSS: Loaded P8 page 2 into frame 51
+OSS: Unblocking P8. Address 2640 is now in frame 51
+OSS: Sending turn message to worker P11 PID 839954 at time 0:650001000
+OSS: P11 requesting read of address 3683 at time 0:650001000
+OSS: Address 3683 is page 3 with offset 611
+OSS: Address 3683 is not in a frame, pagefault
+OSS: Blocking P11 while page 3 is brought in from disk
+OSS: Queued page fault for P11 address 3683 page 3. It will be ready at 664001000 ns
+OSS: I/O complete for P9 address 9076 page 8 at time 0:650001000
+OSS: Found free frame 52
+OSS: Dirty bit of frame 52 set because P9 is writing page 8
+OSS: Loaded P9 page 8 into frame 52
+OSS: Unblocking P9. Address 9076 is now in frame 52
+OSS: Sending turn message to worker P12 PID 839955 at time 0:660001000
+OSS: P12 requesting write of address 13085 at time 0:660001000
+OSS: Address 13085 is page 12 with offset 797
+OSS: Address 13085 is not in a frame, pagefault
+OSS: Blocking P12 while page 12 is brought in from disk
+OSS: Queued page fault for P12 address 13085 page 12. It will be ready at 674001000 ns
+OSS: I/O complete for P10 address 11290 page 11 at time 0:660001000
+OSS: Found free frame 53
+OSS: Loaded P10 page 11 into frame 53
+OSS: Unblocking P10. Address 11290 is now in frame 53
+OSS: Sending turn message to worker P13 PID 839956 at time 0:670001000
+OSS: P13 requesting read of address 14848 at time 0:670001000
+OSS: Address 14848 is page 14 with offset 512
+OSS: Address 14848 is not in a frame, pagefault
+OSS: Blocking P13 while page 14 is brought in from disk
+OSS: Queued page fault for P13 address 14848 page 14. It will be ready at 684001000 ns
+OSS: I/O complete for P11 address 3683 page 3 at time 0:670001000
+OSS: Found free frame 54
+OSS: Loaded P11 page 3 into frame 54
+OSS: Unblocking P11. Address 3683 is now in frame 54
+OSS: Sending turn message to worker P14 PID 839957 at time 0:680001000
+OSS: P14 requesting write of address 9834 at time 0:680001000
+OSS: Address 9834 is page 9 with offset 618
+OSS: Address 9834 is not in a frame, pagefault
+OSS: Blocking P14 while page 9 is brought in from disk
+OSS: Queued page fault for P14 address 9834 page 9. It will be ready at 694001000 ns
+OSS: I/O complete for P12 address 13085 page 12 at time 0:680001000
+OSS: Found free frame 55
+OSS: Dirty bit of frame 55 set because P12 is writing page 12
+OSS: Loaded P12 page 12 into frame 55
+OSS: Unblocking P12. Address 13085 is now in frame 55
+OSS: Sending turn message to worker P15 PID 839958 at time 0:690001000
+OSS: P15 requesting write of address 11953 at time 0:690001000
+OSS: Address 11953 is page 11 with offset 689
+OSS: Address 11953 is not in a frame, pagefault
+OSS: Blocking P15 while page 11 is brought in from disk
+OSS: Queued page fault for P15 address 11953 page 11. It will be ready at 704001000 ns
+OSS: I/O complete for P13 address 14848 page 14 at time 0:690001000
+OSS: Found free frame 56
+OSS: Loaded P13 page 14 into frame 56
+OSS: Unblocking P13. Address 14848 is now in frame 56
+OSS: Sending turn message to worker P16 PID 839959 at time 0:700001000
+OSS: P16 requesting read of address 9850 at time 0:700001000
+OSS: Address 9850 is page 9 with offset 634
+OSS: Address 9850 is not in a frame, pagefault
+OSS: Blocking P16 while page 9 is brought in from disk
+OSS: Queued page fault for P16 address 9850 page 9. It will be ready at 714001000 ns
+OSS: I/O complete for P14 address 9834 page 9 at time 0:700001000
+OSS: Found free frame 57
+OSS: Dirty bit of frame 57 set because P14 is writing page 9
+OSS: Loaded P14 page 9 into frame 57
+OSS: Unblocking P14. Address 9834 is now in frame 57
+OSS: Sending turn message to worker P17 PID 839960 at time 0:710001000
+OSS: P17 requesting read of address 15087 at time 0:710001000
+OSS: Address 15087 is page 14 with offset 751
+OSS: Address 15087 is not in a frame, pagefault
+OSS: Blocking P17 while page 14 is brought in from disk
+OSS: Queued page fault for P17 address 15087 page 14. It will be ready at 724001000 ns
+OSS: I/O complete for P15 address 11953 page 11 at time 0:710001000
+OSS: Found free frame 58
+OSS: Dirty bit of frame 58 set because P15 is writing page 11
+OSS: Loaded P15 page 11 into frame 58
+OSS: Unblocking P15. Address 11953 is now in frame 58
+OSS: Sending turn message to worker P18 PID 839961 at time 0:720001000
+OSS: P18 requesting read of address 6551 at time 0:720001000
+OSS: Address 6551 is page 6 with offset 407
+OSS: Address 6551 is not in a frame, pagefault
+OSS: Blocking P18 while page 6 is brought in from disk
+OSS: Queued page fault for P18 address 6551 page 6. It will be ready at 734001000 ns
+OSS: I/O complete for P16 address 9850 page 9 at time 0:720001000
+OSS: Found free frame 59
+OSS: Loaded P16 page 9 into frame 59
+OSS: Unblocking P16. Address 9850 is now in frame 59
+OSS: Sending turn message to worker P1 PID 839944 at time 0:730001000
+OSS: P1 requesting read of address 12227 at time 0:730001000
+OSS: Address 12227 is page 11 with offset 963
+OSS: Address 12227 is not in a frame, pagefault
+OSS: Blocking P1 while page 11 is brought in from disk
+OSS: Queued page fault for P1 address 12227 page 11. It will be ready at 744001000 ns
+OSS: I/O complete for P17 address 15087 page 14 at time 0:730001000
+OSS: Found free frame 60
+OSS: Loaded P17 page 14 into frame 60
+OSS: Unblocking P17. Address 15087 is now in frame 60
+OSS: Sending turn message to worker P2 PID 839945 at time 0:740001000
+OSS: P2 requesting read of address 16122 at time 0:740001000
+OSS: Address 16122 is page 15 with offset 762
+OSS: Address 16122 is already in frame 35
+OSS: Address 16122 in frame 35, giving data to P2 at time 0:740001100
+OSS: I/O complete for P18 address 6551 page 6 at time 0:740001100
+OSS: Found free frame 61
+OSS: Loaded P18 page 6 into frame 61
+OSS: Unblocking P18. Address 6551 is now in frame 61
+OSS: Sending turn message to worker P3 PID 839946 at time 0:750001100
+OSS: P3 requesting read of address 4318 at time 0:750001100
+OSS: Address 4318 is page 4 with offset 222
+OSS: Address 4318 is not in a frame, pagefault
+OSS: Blocking P3 while page 4 is brought in from disk
+OSS: Queued page fault for P3 address 4318 page 4. It will be ready at 764001100 ns
+OSS: I/O complete for P1 address 12227 page 11 at time 0:750001100
+OSS: Found free frame 62
+OSS: Loaded P1 page 11 into frame 62
+OSS: Unblocking P1. Address 12227 is now in frame 62
+OSS: Sending turn message to worker P4 PID 839947 at time 0:760001100
+OSS: P4 requesting write of address 6237 at time 0:760001100
+OSS: Address 6237 is page 6 with offset 93
+OSS: Address 6237 is already in frame 21
+OSS: Dirty bit of frame 21 set because this was a write
+OSS: Address 6237 in frame 21, writing data for P4 at time 0:760001200
+OSS: Sending turn message to worker P5 PID 839948 at time 0:770001200
+OSS: P5 requesting read of address 6968 at time 0:770001200
+OSS: Address 6968 is page 6 with offset 824
+OSS: Address 6968 is already in frame 37
+OSS: Address 6968 in frame 37, giving data to P5 at time 0:770001300
+OSS: I/O complete for P3 address 4318 page 4 at time 0:770001300
+OSS: Found free frame 63
+OSS: Loaded P3 page 4 into frame 63
+OSS: Unblocking P3. Address 4318 is now in frame 63
+OSS: Sending turn message to worker P6 PID 839949 at time 0:780001300
+OSS: P6 requesting read of address 7776 at time 0:780001300
+OSS: Address 7776 is page 7 with offset 608
+OSS: Address 7776 is not in a frame, pagefault
+OSS: Blocking P6 while page 7 is brought in from disk
+OSS: Queued page fault for P6 address 7776 page 7. It will be ready at 794001300 ns
+OSS: Sending turn message to worker P7 PID 839950 at time 0:790001300
+OSS: P7 requesting read of address 9769 at time 0:790001300
+OSS: Address 9769 is page 9 with offset 553
+OSS: Address 9769 is not in a frame, pagefault
+OSS: Blocking P7 while page 9 is brought in from disk
+OSS: Queued page fault for P7 address 9769 page 9. It will be ready at 804001300 ns
+OSS: Sending turn message to worker P8 PID 839951 at time 0:800001300
+OSS: P8 requesting write of address 14954 at time 0:800001300
+OSS: Address 14954 is page 14 with offset 618
+OSS: Address 14954 is not in a frame, pagefault
+OSS: Blocking P8 while page 14 is brought in from disk
+OSS: Queued page fault for P8 address 14954 page 14. It will be ready at 814001300 ns
+OSS: I/O complete for P6 address 7776 page 7 at time 0:800001300
+OSS: No free frame available. Clearing frame 0 from process slot 0 page 4
+OSS: P1 page 4 is now marked as not in memory
+OSS: Loaded P6 page 7 into frame 0
+OSS: Unblocking P6. Address 7776 is now in frame 0
+OSS: Sending turn message to worker P9 PID 839952 at time 0:810001300
+OSS: P9 requesting write of address 11818 at time 0:810001300
+OSS: Address 11818 is page 11 with offset 554
+OSS: Address 11818 is not in a frame, pagefault
+OSS: Blocking P9 while page 11 is brought in from disk
+OSS: Queued page fault for P9 address 11818 page 11. It will be ready at 824001300 ns
+OSS: I/O complete for P7 address 9769 page 9 at time 0:810001300
+OSS: No free frame available. Clearing frame 0 from process slot 5 page 7
+OSS: P6 page 7 is now marked as not in memory
+OSS: Loaded P7 page 9 into frame 0
+OSS: Unblocking P7. Address 9769 is now in frame 0
+OSS: Sending turn message to worker P10 PID 839953 at time 0:820001300
+OSS: P10 requesting write of address 15743 at time 0:820001300
+OSS: Address 15743 is page 15 with offset 383
+OSS: Address 15743 is not in a frame, pagefault
+OSS: Blocking P10 while page 15 is brought in from disk
+OSS: Queued page fault for P10 address 15743 page 15. It will be ready at 834001300 ns
+OSS: I/O complete for P8 address 14954 page 14 at time 0:820001300
+OSS: No free frame available. Clearing frame 0 from process slot 6 page 9
+OSS: P7 page 9 is now marked as not in memory
+OSS: Dirty bit of frame 0 set because P8 is writing page 14
+OSS: Loaded P8 page 14 into frame 0
+OSS: Unblocking P8. Address 14954 is now in frame 0
+OSS: Sending turn message to worker P11 PID 839954 at time 0:830001300
+OSS: P11 requesting write of address 2657 at time 0:830001300
+OSS: Address 2657 is page 2 with offset 609
+OSS: Address 2657 is not in a frame, pagefault
+OSS: Blocking P11 while page 2 is brought in from disk
+OSS: Queued page fault for P11 address 2657 page 2. It will be ready at 844001300 ns
+OSS: I/O complete for P9 address 11818 page 11 at time 0:830001300
+OSS: No free frame available. Clearing frame 0 from process slot 7 page 14
+OSS: Dirty bit of frame 0 is set. Adding extra dirty swap time at 0:830001300
+OSS: Dirty frame 0 write-back complete at 0:844001300
+OSS: P8 page 14 is now marked as not in memory
+OSS: Dirty bit of frame 0 set because P9 is writing page 11
+OSS: Loaded P9 page 11 into frame 0
+OSS: Unblocking P9. Address 11818 is now in frame 0
+OSS: I/O complete for P10 address 15743 page 15 at time 0:844001300
+OSS: No free frame available. Clearing frame 0 from process slot 8 page 11
+OSS: Dirty bit of frame 0 is set. Adding extra dirty swap time at 0:844001300
+OSS: Dirty frame 0 write-back complete at 0:858001300
+OSS: P9 page 11 is now marked as not in memory
+OSS: Dirty bit of frame 0 set because P10 is writing page 15
+OSS: Loaded P10 page 15 into frame 0
+OSS: Unblocking P10. Address 15743 is now in frame 0
+OSS: I/O complete for P11 address 2657 page 2 at time 0:858001300
+OSS: No free frame available. Clearing frame 0 from process slot 9 page 15
+OSS: Dirty bit of frame 0 is set. Adding extra dirty swap time at 0:858001300
+OSS: Dirty frame 0 write-back complete at 0:872001300
+OSS: P10 page 15 is now marked as not in memory
+OSS: Dirty bit of frame 0 set because P11 is writing page 2
+OSS: Loaded P11 page 2 into frame 0
+OSS: Unblocking P11. Address 2657 is now in frame 0
+OSS: Sending turn message to worker P12 PID 839955 at time 0:882001300
+OSS: P12 requesting read of address 841 at time 0:882001300
+OSS: Address 841 is page 0 with offset 841
+OSS: Address 841 is not in a frame, pagefault
+OSS: Blocking P12 while page 0 is brought in from disk
+OSS: Queued page fault for P12 address 841 page 0. It will be ready at 896001300 ns
+OSS: Sending turn message to worker P13 PID 839956 at time 0:892001300
+OSS: P13 requesting read of address 224 at time 0:892001300
+OSS: Address 224 is page 0 with offset 224
+OSS: Address 224 is not in a frame, pagefault
+OSS: Blocking P13 while page 0 is brought in from disk
+OSS: Queued page fault for P13 address 224 page 0. It will be ready at 906001300 ns
+OSS: Sending turn message to worker P14 PID 839957 at time 0:902001300
+OSS: P14 requesting read of address 14456 at time 0:902001300
+OSS: Address 14456 is page 14 with offset 120
+OSS: Address 14456 is not in a frame, pagefault
+OSS: Blocking P14 while page 14 is brought in from disk
+OSS: Queued page fault for P14 address 14456 page 14. It will be ready at 916001300 ns
+OSS: I/O complete for P12 address 841 page 0 at time 0:902001300
+OSS: No free frame available. Clearing frame 0 from process slot 10 page 2
+OSS: Dirty bit of frame 0 is set. Adding extra dirty swap time at 0:902001300
+OSS: Dirty frame 0 write-back complete at 0:916001300
+OSS: P11 page 2 is now marked as not in memory
+OSS: Loaded P12 page 0 into frame 0
+OSS: Unblocking P12. Address 841 is now in frame 0
+OSS: I/O complete for P13 address 224 page 0 at time 0:916001300
+OSS: No free frame available. Clearing frame 0 from process slot 11 page 0
+OSS: P12 page 0 is now marked as not in memory
+OSS: Loaded P13 page 0 into frame 0
+OSS: Unblocking P13. Address 224 is now in frame 0
+OSS: I/O complete for P14 address 14456 page 14 at time 0:916001300
+OSS: No free frame available. Clearing frame 0 from process slot 12 page 0
+OSS: P13 page 0 is now marked as not in memory
+OSS: Loaded P14 page 14 into frame 0
+OSS: Unblocking P14. Address 14456 is now in frame 0
+OSS: Sending turn message to worker P15 PID 839958 at time 0:926001300
+OSS: P15 requesting write of address 12345 at time 0:926001300
+OSS: Address 12345 is page 12 with offset 57
+OSS: Address 12345 is not in a frame, pagefault
+OSS: Blocking P15 while page 12 is brought in from disk
+OSS: Queued page fault for P15 address 12345 page 12. It will be ready at 940001300 ns
+OSS: Sending turn message to worker P16 PID 839959 at time 0:936001300
+OSS: P16 requesting read of address 4731 at time 0:936001300
+OSS: Address 4731 is page 4 with offset 635
+OSS: Address 4731 is not in a frame, pagefault
+OSS: Blocking P16 while page 4 is brought in from disk
+OSS: Queued page fault for P16 address 4731 page 4. It will be ready at 950001300 ns
+OSS: Sending turn message to worker P17 PID 839960 at time 0:946001300
+OSS: P17 requesting write of address 8215 at time 0:946001300
+OSS: Address 8215 is page 8 with offset 23
+OSS: Address 8215 is already in frame 45
+OSS: Dirty bit of frame 45 set because this was a write
+OSS: Address 8215 in frame 45, writing data for P17 at time 0:946001400
+OSS: I/O complete for P15 address 12345 page 12 at time 0:946001400
+OSS: No free frame available. Clearing frame 0 from process slot 13 page 14
+OSS: P14 page 14 is now marked as not in memory
+OSS: Dirty bit of frame 0 set because P15 is writing page 12
+OSS: Loaded P15 page 12 into frame 0
+OSS: Unblocking P15. Address 12345 is now in frame 0
+OSS: Sending turn message to worker P18 PID 839961 at time 0:956001400
+OSS: P18 requesting read of address 13798 at time 0:956001400
+OSS: Address 13798 is page 13 with offset 486
+OSS: Address 13798 is not in a frame, pagefault
+OSS: Blocking P18 while page 13 is brought in from disk
+OSS: Queued page fault for P18 address 13798 page 13. It will be ready at 970001400 ns
+OSS: I/O complete for P16 address 4731 page 4 at time 0:956001400
+OSS: No free frame available. Clearing frame 0 from process slot 14 page 12
+OSS: Dirty bit of frame 0 is set. Adding extra dirty swap time at 0:956001400
+OSS: Dirty frame 0 write-back complete at 0:970001400
+OSS: P15 page 12 is now marked as not in memory
+OSS: Loaded P16 page 4 into frame 0
+OSS: Unblocking P16. Address 4731 is now in frame 0
+OSS: I/O complete for P18 address 13798 page 13 at time 0:970001400
+OSS: No free frame available. Clearing frame 0 from process slot 15 page 4
+OSS: P16 page 4 is now marked as not in memory
+OSS: Loaded P18 page 13 into frame 0
+OSS: Unblocking P18. Address 13798 is now in frame 0
+OSS: Sending turn message to worker P1 PID 839944 at time 0:980001400
+OSS: P1 requesting read of address 14070 at time 0:980001400
+OSS: Address 14070 is page 13 with offset 758
+OSS: Address 14070 is already in frame 34
+OSS: Address 14070 in frame 34, giving data to P1 at time 0:980001500
+OSS: Sending turn message to worker P2 PID 839945 at time 0:990001500
+OSS: P2 requesting write of address 5187 at time 0:990001500
+OSS: Address 5187 is page 5 with offset 67
+OSS: Address 5187 is not in a frame, pagefault
+OSS: Blocking P2 while page 5 is brought in from disk
+OSS: Queued page fault for P2 address 5187 page 5. It will be ready at 1004001500 ns
+OSS: Sending turn message to worker P3 PID 839946 at time 1:1500
+OSS: Worker P3 PID 839946 says it is terminating at time 1:1500
+OSS: Releasing frame 2 from P3 page 1
+OSS: Releasing frame 20 from P3 page 10
+OSS: Releasing frame 63 from P3 page 4
+OSS: Sending turn message to worker P4 PID 839947 at time 1:10001500
+OSS: Worker P4 PID 839947 says it is terminating at time 1:10001500
+OSS: Releasing frame 3 from P4 page 12
+OSS: Releasing frame 21 from P4 page 6
+OSS: Releasing frame 36 from P4 page 3
+OSS: Releasing frame 49 from P4 page 2
+OSS: I/O complete for P2 address 5187 page 5 at time 1:10001500
+OSS: Found free frame 2
+OSS: Dirty bit of frame 2 set because P2 is writing page 5
+OSS: Loaded P2 page 5 into frame 2
+OSS: Unblocking P2. Address 5187 is now in frame 2
+OSS: Sending turn message to worker P5 PID 839948 at time 1:20001500
+OSS: Worker P5 PID 839948 says it is terminating at time 1:20001500
+OSS: Releasing frame 4 from P5 page 15
+OSS: Releasing frame 37 from P5 page 6
+OSS: Releasing frame 50 from P5 page 12
+OSS: Sending turn message to worker P6 PID 839949 at time 1:30001500
+OSS: Worker P6 PID 839949 says it is terminating at time 1:30001500
+OSS: Releasing frame 5 from P6 page 12
+OSS: Releasing frame 22 from P6 page 10
+OSS: Sending turn message to worker P7 PID 839950 at time 1:40001500
+OSS: Worker P7 PID 839950 says it is terminating at time 1:40001500
+OSS: Releasing frame 6 from P7 page 2
+OSS: Releasing frame 23 from P7 page 4
+OSS: Releasing frame 38 from P7 page 13
+OSS: Sending turn message to worker P8 PID 839951 at time 1:50001500
+OSS: Worker P8 PID 839951 says it is terminating at time 1:50001500
+OSS: Releasing frame 7 from P8 page 1
+OSS: Releasing frame 24 from P8 page 13
+OSS: Releasing frame 39 from P8 page 3
+OSS: Releasing frame 51 from P8 page 2
+OSS: Sending turn message to worker P9 PID 839952 at time 1:60001500
+OSS: Worker P9 PID 839952 says it is terminating at time 1:60001500
+OSS: Releasing frame 8 from P9 page 15
+OSS: Releasing frame 25 from P9 page 13
+OSS: Releasing frame 40 from P9 page 5
+OSS: Releasing frame 52 from P9 page 8
+OSS: Sending turn message to worker P10 PID 839953 at time 1:70001500
+OSS: Worker P10 PID 839953 says it is terminating at time 1:70001500
+OSS: Releasing frame 9 from P10 page 9
+OSS: Releasing frame 26 from P10 page 14
+OSS: Releasing frame 41 from P10 page 8
+OSS: Releasing frame 53 from P10 page 11
+OSS: Sending turn message to worker P11 PID 839954 at time 1:80001500
+OSS: Worker P11 PID 839954 says it is terminating at time 1:80001500
+OSS: Releasing frame 10 from P11 page 0
+OSS: Releasing frame 27 from P11 page 10
+OSS: Releasing frame 42 from P11 page 15
+OSS: Releasing frame 54 from P11 page 3
+OSS: Sending turn message to worker P12 PID 839955 at time 1:90001500
+OSS: Worker P12 PID 839955 says it is terminating at time 1:90001500
+OSS: Releasing frame 11 from P12 page 15
+OSS: Releasing frame 28 from P12 page 4
+OSS: Releasing frame 55 from P12 page 12
+OSS: Sending turn message to worker P13 PID 839956 at time 1:100001500
+OSS: Worker P13 PID 839956 says it is terminating at time 1:100001500
+OSS: Releasing frame 12 from P13 page 4
+OSS: Releasing frame 29 from P13 page 15
+OSS: Releasing frame 43 from P13 page 1
+OSS: Releasing frame 56 from P13 page 14
+OSS: Sending turn message to worker P14 PID 839957 at time 1:110001500
+OSS: Worker P14 PID 839957 says it is terminating at time 1:110001500
+OSS: Releasing frame 13 from P14 page 3
+OSS: Releasing frame 44 from P14 page 0
+OSS: Releasing frame 57 from P14 page 9
+OSS: Sending turn message to worker P15 PID 839958 at time 1:120001500
+OSS: Worker P15 PID 839958 says it is terminating at time 1:120001500
+OSS: Releasing frame 14 from P15 page 8
+OSS: Releasing frame 30 from P15 page 0
+OSS: Releasing frame 58 from P15 page 11
+OSS: Sending turn message to worker P16 PID 839959 at time 1:130001500
+OSS: Worker P16 PID 839959 says it is terminating at time 1:130001500
+OSS: Releasing frame 15 from P16 page 1
+OSS: Releasing frame 31 from P16 page 2
+OSS: Releasing frame 59 from P16 page 9
+OSS: Sending turn message to worker P17 PID 839960 at time 1:140001500
+OSS: Worker P17 PID 839960 says it is terminating at time 1:140001500
+OSS: Releasing frame 16 from P17 page 11
+OSS: Releasing frame 32 from P17 page 5
+OSS: Releasing frame 45 from P17 page 8
+OSS: Releasing frame 60 from P17 page 14
+OSS: Sending turn message to worker P18 PID 839961 at time 1:150001500
+OSS: Worker P18 PID 839961 says it is terminating at time 1:150001500
+OSS: Releasing frame 0 from P18 page 13
+OSS: Releasing frame 17 from P18 page 8
+OSS: Releasing frame 33 from P18 page 7
+OSS: Releasing frame 46 from P18 page 0
+OSS: Releasing frame 61 from P18 page 6
+OSS: Sending turn message to worker P1 PID 839944 at time 1:160001500
+OSS: Worker P1 PID 839944 says it is terminating at time 1:160001500
+OSS: Releasing frame 18 from P1 page 8
+OSS: Releasing frame 34 from P1 page 13
+OSS: Releasing frame 47 from P1 page 5
+OSS: Releasing frame 62 from P1 page 11
+OSS: Sending turn message to worker P2 PID 839945 at time 1:170001500
+OSS: Worker P2 PID 839945 says it is terminating at time 1:170001500
+OSS: Releasing frame 1 from P2 page 10
+OSS: Releasing frame 2 from P2 page 5
+OSS: Releasing frame 19 from P2 page 1
+OSS: Releasing frame 35 from P2 page 15
+OSS: Releasing frame 48 from P2 page 14
 
-Page Tables:
-P1 page table: [ -1 -1 -1 -1 -1 -1 0 -1 -1 -1 -1 -1 -1 -1 -1 -1 ]
-P2 page table: [ -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 ]
-
-Frame Table:
-Frame Occupied DirtyBit Process Page
-    0        1        1       0    6
-    1        0        0      -1   -1
-    2        0        0      -1   -1
-    3        0        0      -1   -1
-    4        0        0      -1   -1
-    5        0        0      -1   -1
-    6        0        0      -1   -1
-    7        0        0      -1   -1
-    8        0        0      -1   -1
-    9        0        0      -1   -1
-   10        0        0      -1   -1
-   11        0        0      -1   -1
-   12        0        0      -1   -1
-   13        0        0      -1   -1
-   14        0        0      -1   -1
-   15        0        0      -1   -1
-   16        0        0      -1   -1
-   17        0        0      -1   -1
-   18        0        0      -1   -1
-   19        0        0      -1   -1
-   20        0        0      -1   -1
-   21        0        0      -1   -1
-   22        0        0      -1   -1
-   23        0        0      -1   -1
-   24        0        0      -1   -1
-   25        0        0      -1   -1
-   26        0        0      -1   -1
-   27        0        0      -1   -1
-   28        0        0      -1   -1
-   29        0        0      -1   -1
-   30        0        0      -1   -1
-   31        0        0      -1   -1
-   32        0        0      -1   -1
-   33        0        0      -1   -1
-   34        0        0      -1   -1
-   35        0        0      -1   -1
-   36        0        0      -1   -1
-   37        0        0      -1   -1
-   38        0        0      -1   -1
-   39        0        0      -1   -1
-   40        0        0      -1   -1
-   41        0        0      -1   -1
-   42        0        0      -1   -1
-   43        0        0      -1   -1
-   44        0        0      -1   -1
-   45        0        0      -1   -1
-   46        0        0      -1   -1
-   47        0        0      -1   -1
-   48        0        0      -1   -1
-   49        0        0      -1   -1
-   50        0        0      -1   -1
-   51        0        0      -1   -1
-   52        0        0      -1   -1
-   53        0        0      -1   -1
-   54        0        0      -1   -1
-   55        0        0      -1   -1
-   56        0        0      -1   -1
-   57        0        0      -1   -1
-   58        0        0      -1   -1
-   59        0        0      -1   -1
-   60        0        0      -1   -1
-   61        0        0      -1   -1
-   62        0        0      -1   -1
-   63        0        0      -1   -1
-OSS: Worker P1 PID 829582 has terminated.
-OSS: Releasing frame 0 from P1 page 6
-
-OSS: Forked worker P3 with PID 829584 in slot 0 at time 0:1100
-OSS: Sending turn message to worker P2 PID 829583 at time 0:2100
-OSS: P2 requesting read of address 10748 at time 0:2100
-OSS: Address 10748 is page 10 with offset 508
-OSS: Address 10748 is not in a frame, pagefault
-OSS: Found free frame 0
-OSS: Loaded P2 page 10 into frame 0
-OSS: Address 10748 in frame 0, giving data to P2 at time 0:2200
-
-Page Tables:
-P3 page table: [ -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 ]
-P2 page table: [ -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 0 -1 -1 -1 -1 -1 ]
-
-Frame Table:
-Frame Occupied DirtyBit Process Page
-    0        1        0       1   10
-    1        0        0      -1   -1
-    2        0        0      -1   -1
-    3        0        0      -1   -1
-    4        0        0      -1   -1
-    5        0        0      -1   -1
-    6        0        0      -1   -1
-    7        0        0      -1   -1
-    8        0        0      -1   -1
-    9        0        0      -1   -1
-   10        0        0      -1   -1
-   11        0        0      -1   -1
-   12        0        0      -1   -1
-   13        0        0      -1   -1
-   14        0        0      -1   -1
-   15        0        0      -1   -1
-   16        0        0      -1   -1
-   17        0        0      -1   -1
-   18        0        0      -1   -1
-   19        0        0      -1   -1
-   20        0        0      -1   -1
-   21        0        0      -1   -1
-   22        0        0      -1   -1
-   23        0        0      -1   -1
-   24        0        0      -1   -1
-   25        0        0      -1   -1
-   26        0        0      -1   -1
-   27        0        0      -1   -1
-   28        0        0      -1   -1
-   29        0        0      -1   -1
-   30        0        0      -1   -1
-   31        0        0      -1   -1
-   32        0        0      -1   -1
-   33        0        0      -1   -1
-   34        0        0      -1   -1
-   35        0        0      -1   -1
-   36        0        0      -1   -1
-   37        0        0      -1   -1
-   38        0        0      -1   -1
-   39        0        0      -1   -1
-   40        0        0      -1   -1
-   41        0        0      -1   -1
-   42        0        0      -1   -1
-   43        0        0      -1   -1
-   44        0        0      -1   -1
-   45        0        0      -1   -1
-   46        0        0      -1   -1
-   47        0        0      -1   -1
-   48        0        0      -1   -1
-   49        0        0      -1   -1
-   50        0        0      -1   -1
-   51        0        0      -1   -1
-   52        0        0      -1   -1
-   53        0        0      -1   -1
-   54        0        0      -1   -1
-   55        0        0      -1   -1
-   56        0        0      -1   -1
-   57        0        0      -1   -1
-   58        0        0      -1   -1
-   59        0        0      -1   -1
-   60        0        0      -1   -1
-   61        0        0      -1   -1
-   62        0        0      -1   -1
-   63        0        0      -1   -1
-OSS: Worker P2 PID 829583 has terminated.
-OSS: Releasing frame 0 from P2 page 10
-
-OSS: Forked worker P4 with PID 829585 in slot 1 at time 0:2200
-OSS: Sending turn message to worker P3 PID 829584 at time 0:3200
-OSS: P3 requesting read of address 5559 at time 0:3200
-OSS: Address 5559 is page 5 with offset 439
-OSS: Address 5559 is not in a frame, pagefault
-OSS: Found free frame 0
-OSS: Loaded P3 page 5 into frame 0
-OSS: Address 5559 in frame 0, giving data to P3 at time 0:3300
-
-Page Tables:
-P3 page table: [ -1 -1 -1 -1 -1 0 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 ]
-P4 page table: [ -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 ]
-
-Frame Table:
-Frame Occupied DirtyBit Process Page
-    0        1        0       0    5
-    1        0        0      -1   -1
-    2        0        0      -1   -1
-    3        0        0      -1   -1
-    4        0        0      -1   -1
-    5        0        0      -1   -1
-    6        0        0      -1   -1
-    7        0        0      -1   -1
-    8        0        0      -1   -1
-    9        0        0      -1   -1
-   10        0        0      -1   -1
-   11        0        0      -1   -1
-   12        0        0      -1   -1
-   13        0        0      -1   -1
-   14        0        0      -1   -1
-   15        0        0      -1   -1
-   16        0        0      -1   -1
-   17        0        0      -1   -1
-   18        0        0      -1   -1
-   19        0        0      -1   -1
-   20        0        0      -1   -1
-   21        0        0      -1   -1
-   22        0        0      -1   -1
-   23        0        0      -1   -1
-   24        0        0      -1   -1
-   25        0        0      -1   -1
-   26        0        0      -1   -1
-   27        0        0      -1   -1
-   28        0        0      -1   -1
-   29        0        0      -1   -1
-   30        0        0      -1   -1
-   31        0        0      -1   -1
-   32        0        0      -1   -1
-   33        0        0      -1   -1
-   34        0        0      -1   -1
-   35        0        0      -1   -1
-   36        0        0      -1   -1
-   37        0        0      -1   -1
-   38        0        0      -1   -1
-   39        0        0      -1   -1
-   40        0        0      -1   -1
-   41        0        0      -1   -1
-   42        0        0      -1   -1
-   43        0        0      -1   -1
-   44        0        0      -1   -1
-   45        0        0      -1   -1
-   46        0        0      -1   -1
-   47        0        0      -1   -1
-   48        0        0      -1   -1
-   49        0        0      -1   -1
-   50        0        0      -1   -1
-   51        0        0      -1   -1
-   52        0        0      -1   -1
-   53        0        0      -1   -1
-   54        0        0      -1   -1
-   55        0        0      -1   -1
-   56        0        0      -1   -1
-   57        0        0      -1   -1
-   58        0        0      -1   -1
-   59        0        0      -1   -1
-   60        0        0      -1   -1
-   61        0        0      -1   -1
-   62        0        0      -1   -1
-   63        0        0      -1   -1
-OSS: Worker P3 PID 829584 has terminated.
-OSS: Releasing frame 0 from P3 page 5
-
-OSS: Forked worker P5 with PID 829586 in slot 0 at time 0:3300
-OSS: Sending turn message to worker P4 PID 829585 at time 0:4300
-OSS: P4 requesting read of address 6606 at time 0:4300
-OSS: Address 6606 is page 6 with offset 462
-OSS: Address 6606 is not in a frame, pagefault
-OSS: Found free frame 0
-OSS: Loaded P4 page 6 into frame 0
-OSS: Address 6606 in frame 0, giving data to P4 at time 0:4400
-
-Page Tables:
-P5 page table: [ -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 ]
-P4 page table: [ -1 -1 -1 -1 -1 -1 0 -1 -1 -1 -1 -1 -1 -1 -1 -1 ]
-
-Frame Table:
-Frame Occupied DirtyBit Process Page
-    0        1        0       1    6
-    1        0        0      -1   -1
-    2        0        0      -1   -1
-    3        0        0      -1   -1
-    4        0        0      -1   -1
-    5        0        0      -1   -1
-    6        0        0      -1   -1
-    7        0        0      -1   -1
-    8        0        0      -1   -1
-    9        0        0      -1   -1
-   10        0        0      -1   -1
-   11        0        0      -1   -1
-   12        0        0      -1   -1
-   13        0        0      -1   -1
-   14        0        0      -1   -1
-   15        0        0      -1   -1
-   16        0        0      -1   -1
-   17        0        0      -1   -1
-   18        0        0      -1   -1
-   19        0        0      -1   -1
-   20        0        0      -1   -1
-   21        0        0      -1   -1
-   22        0        0      -1   -1
-   23        0        0      -1   -1
-   24        0        0      -1   -1
-   25        0        0      -1   -1
-   26        0        0      -1   -1
-   27        0        0      -1   -1
-   28        0        0      -1   -1
-   29        0        0      -1   -1
-   30        0        0      -1   -1
-   31        0        0      -1   -1
-   32        0        0      -1   -1
-   33        0        0      -1   -1
-   34        0        0      -1   -1
-   35        0        0      -1   -1
-   36        0        0      -1   -1
-   37        0        0      -1   -1
-   38        0        0      -1   -1
-   39        0        0      -1   -1
-   40        0        0      -1   -1
-   41        0        0      -1   -1
-   42        0        0      -1   -1
-   43        0        0      -1   -1
-   44        0        0      -1   -1
-   45        0        0      -1   -1
-   46        0        0      -1   -1
-   47        0        0      -1   -1
-   48        0        0      -1   -1
-   49        0        0      -1   -1
-   50        0        0      -1   -1
-   51        0        0      -1   -1
-   52        0        0      -1   -1
-   53        0        0      -1   -1
-   54        0        0      -1   -1
-   55        0        0      -1   -1
-   56        0        0      -1   -1
-   57        0        0      -1   -1
-   58        0        0      -1   -1
-   59        0        0      -1   -1
-   60        0        0      -1   -1
-   61        0        0      -1   -1
-   62        0        0      -1   -1
-   63        0        0      -1   -1
-OSS: Worker P4 PID 829585 has terminated.
-OSS: Releasing frame 0 from P4 page 6
-OSS: Sending turn message to worker P5 PID 829586 at time 0:5400
-OSS: P5 requesting read of address 13392 at time 0:5400
-OSS: Address 13392 is page 13 with offset 80
-OSS: Address 13392 is not in a frame, pagefault
-OSS: Found free frame 0
-OSS: Loaded P5 page 13 into frame 0
-OSS: Address 13392 in frame 0, giving data to P5 at time 0:5500
-
-Page Tables:
-P5 page table: [ -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 0 -1 -1 ]
-
-Frame Table:
-Frame Occupied DirtyBit Process Page
-    0        1        0       0   13
-    1        0        0      -1   -1
-    2        0        0      -1   -1
-    3        0        0      -1   -1
-    4        0        0      -1   -1
-    5        0        0      -1   -1
-    6        0        0      -1   -1
-    7        0        0      -1   -1
-    8        0        0      -1   -1
-    9        0        0      -1   -1
-   10        0        0      -1   -1
-   11        0        0      -1   -1
-   12        0        0      -1   -1
-   13        0        0      -1   -1
-   14        0        0      -1   -1
-   15        0        0      -1   -1
-   16        0        0      -1   -1
-   17        0        0      -1   -1
-   18        0        0      -1   -1
-   19        0        0      -1   -1
-   20        0        0      -1   -1
-   21        0        0      -1   -1
-   22        0        0      -1   -1
-   23        0        0      -1   -1
-   24        0        0      -1   -1
-   25        0        0      -1   -1
-   26        0        0      -1   -1
-   27        0        0      -1   -1
-   28        0        0      -1   -1
-   29        0        0      -1   -1
-   30        0        0      -1   -1
-   31        0        0      -1   -1
-   32        0        0      -1   -1
-   33        0        0      -1   -1
-   34        0        0      -1   -1
-   35        0        0      -1   -1
-   36        0        0      -1   -1
-   37        0        0      -1   -1
-   38        0        0      -1   -1
-   39        0        0      -1   -1
-   40        0        0      -1   -1
-   41        0        0      -1   -1
-   42        0        0      -1   -1
-   43        0        0      -1   -1
-   44        0        0      -1   -1
-   45        0        0      -1   -1
-   46        0        0      -1   -1
-   47        0        0      -1   -1
-   48        0        0      -1   -1
-   49        0        0      -1   -1
-   50        0        0      -1   -1
-   51        0        0      -1   -1
-   52        0        0      -1   -1
-   53        0        0      -1   -1
-   54        0        0      -1   -1
-   55        0        0      -1   -1
-   56        0        0      -1   -1
-   57        0        0      -1   -1
-   58        0        0      -1   -1
-   59        0        0      -1   -1
-   60        0        0      -1   -1
-   61        0        0      -1   -1
-   62        0        0      -1   -1
-   63        0        0      -1   -1
-OSS: Worker P5 PID 829586 has terminated.
-OSS: Releasing frame 0 from P5 page 13
-
-OSS PID:829581 SysClockS: 0 SysClockNano: 5500
+OSS PID:839943 SysClockS: 1 SysClockNano: 170001500
 Process Table:
 Entry Occupied LocalPID RealPID StartS StartN Blocked
     0        0        0       0      0      0       0
@@ -600,12 +1227,12 @@ Frame Occupied DirtyBit Process Page
    62        0        0      -1   -1
    63        0        0      -1   -1
 
-OSS: Step 5 Summary
-OSS: Children launched: 5
-OSS: Children finished: 5
-OSS: Total memory requests: 5
-OSS: Total reads: 4
-OSS: Total writes: 1
-OSS: Total page faults: 5
-OSS: Final clock: 0:5500
+OSS: Step 7 Summary
+OSS: Children launched: 18
+OSS: Children finished: 18
+OSS: Total memory requests: 92
+OSS: Total reads: 60
+OSS: Total writes: 32
+OSS: Total page faults: 77
+OSS: Final clock: 1:170001500
 OSS: Shared memory and message queue cleaned up.
