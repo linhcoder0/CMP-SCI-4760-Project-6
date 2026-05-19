@@ -1,4 +1,4 @@
-OSS: starting, PID:597897 PPID:5357
+OSS: starting, PID:799314 PPID:5357
 OSS called with:
 -n 1
 -s 1
@@ -7,7 +7,194 @@ OSS called with:
 -f log.txt
 OSS: Shared memory clock initialized.
 OSS: Initial clock is 0:0
-OSS: Clock after adding 500 nanoseconds is 0:500
-OSS: Clock after adding 1 second is 1:500
-OSS: Shared memory detached and removed.
-OSS: Task 1 complete.
+OSS: Message queue created with id 17
+
+OSS PID:799314 SysClockS: 0 SysClockNano: 0
+Process Table:
+Entry Occupied LocalPID RealPID StartS StartN Blocked
+    0        0        0       0      0      0       0
+    1        0        0       0      0      0       0
+    2        0        0       0      0      0       0
+    3        0        0       0      0      0       0
+    4        0        0       0      0      0       0
+    5        0        0       0      0      0       0
+    6        0        0       0      0      0       0
+    7        0        0       0      0      0       0
+    8        0        0       0      0      0       0
+    9        0        0       0      0      0       0
+   10        0        0       0      0      0       0
+   11        0        0       0      0      0       0
+   12        0        0       0      0      0       0
+   13        0        0       0      0      0       0
+   14        0        0       0      0      0       0
+   15        0        0       0      0      0       0
+   16        0        0       0      0      0       0
+   17        0        0       0      0      0       0
+
+Page Tables:
+
+Frame Table:
+Frame Occupied DirtyBit Process Page
+    0        0        0      -1   -1
+    1        0        0      -1   -1
+    2        0        0      -1   -1
+    3        0        0      -1   -1
+    4        0        0      -1   -1
+    5        0        0      -1   -1
+    6        0        0      -1   -1
+    7        0        0      -1   -1
+    8        0        0      -1   -1
+    9        0        0      -1   -1
+   10        0        0      -1   -1
+   11        0        0      -1   -1
+   12        0        0      -1   -1
+   13        0        0      -1   -1
+   14        0        0      -1   -1
+   15        0        0      -1   -1
+   16        0        0      -1   -1
+   17        0        0      -1   -1
+   18        0        0      -1   -1
+   19        0        0      -1   -1
+   20        0        0      -1   -1
+   21        0        0      -1   -1
+   22        0        0      -1   -1
+   23        0        0      -1   -1
+   24        0        0      -1   -1
+   25        0        0      -1   -1
+   26        0        0      -1   -1
+   27        0        0      -1   -1
+   28        0        0      -1   -1
+   29        0        0      -1   -1
+   30        0        0      -1   -1
+   31        0        0      -1   -1
+   32        0        0      -1   -1
+   33        0        0      -1   -1
+   34        0        0      -1   -1
+   35        0        0      -1   -1
+   36        0        0      -1   -1
+   37        0        0      -1   -1
+   38        0        0      -1   -1
+   39        0        0      -1   -1
+   40        0        0      -1   -1
+   41        0        0      -1   -1
+   42        0        0      -1   -1
+   43        0        0      -1   -1
+   44        0        0      -1   -1
+   45        0        0      -1   -1
+   46        0        0      -1   -1
+   47        0        0      -1   -1
+   48        0        0      -1   -1
+   49        0        0      -1   -1
+   50        0        0      -1   -1
+   51        0        0      -1   -1
+   52        0        0      -1   -1
+   53        0        0      -1   -1
+   54        0        0      -1   -1
+   55        0        0      -1   -1
+   56        0        0      -1   -1
+   57        0        0      -1   -1
+   58        0        0      -1   -1
+   59        0        0      -1   -1
+   60        0        0      -1   -1
+   61        0        0      -1   -1
+   62        0        0      -1   -1
+   63        0        0      -1   -1
+
+OSS: Forked worker P1 with PID 799315 in slot 0 at time 0:0
+OSS: Sending test message to worker PID 799315 at time 0:1000
+OSS: Received reply from worker PID 799315 slot 0 value 1 at time 0:1000
+OSS: Worker verified shared memory clock and time limit successfully.
+OSS: Worker PID 799315 has terminated.
+
+OSS PID:799314 SysClockS: 0 SysClockNano: 1000
+Process Table:
+Entry Occupied LocalPID RealPID StartS StartN Blocked
+    0        0        0       0      0      0       0
+    1        0        0       0      0      0       0
+    2        0        0       0      0      0       0
+    3        0        0       0      0      0       0
+    4        0        0       0      0      0       0
+    5        0        0       0      0      0       0
+    6        0        0       0      0      0       0
+    7        0        0       0      0      0       0
+    8        0        0       0      0      0       0
+    9        0        0       0      0      0       0
+   10        0        0       0      0      0       0
+   11        0        0       0      0      0       0
+   12        0        0       0      0      0       0
+   13        0        0       0      0      0       0
+   14        0        0       0      0      0       0
+   15        0        0       0      0      0       0
+   16        0        0       0      0      0       0
+   17        0        0       0      0      0       0
+
+Page Tables:
+
+Frame Table:
+Frame Occupied DirtyBit Process Page
+    0        0        0      -1   -1
+    1        0        0      -1   -1
+    2        0        0      -1   -1
+    3        0        0      -1   -1
+    4        0        0      -1   -1
+    5        0        0      -1   -1
+    6        0        0      -1   -1
+    7        0        0      -1   -1
+    8        0        0      -1   -1
+    9        0        0      -1   -1
+   10        0        0      -1   -1
+   11        0        0      -1   -1
+   12        0        0      -1   -1
+   13        0        0      -1   -1
+   14        0        0      -1   -1
+   15        0        0      -1   -1
+   16        0        0      -1   -1
+   17        0        0      -1   -1
+   18        0        0      -1   -1
+   19        0        0      -1   -1
+   20        0        0      -1   -1
+   21        0        0      -1   -1
+   22        0        0      -1   -1
+   23        0        0      -1   -1
+   24        0        0      -1   -1
+   25        0        0      -1   -1
+   26        0        0      -1   -1
+   27        0        0      -1   -1
+   28        0        0      -1   -1
+   29        0        0      -1   -1
+   30        0        0      -1   -1
+   31        0        0      -1   -1
+   32        0        0      -1   -1
+   33        0        0      -1   -1
+   34        0        0      -1   -1
+   35        0        0      -1   -1
+   36        0        0      -1   -1
+   37        0        0      -1   -1
+   38        0        0      -1   -1
+   39        0        0      -1   -1
+   40        0        0      -1   -1
+   41        0        0      -1   -1
+   42        0        0      -1   -1
+   43        0        0      -1   -1
+   44        0        0      -1   -1
+   45        0        0      -1   -1
+   46        0        0      -1   -1
+   47        0        0      -1   -1
+   48        0        0      -1   -1
+   49        0        0      -1   -1
+   50        0        0      -1   -1
+   51        0        0      -1   -1
+   52        0        0      -1   -1
+   53        0        0      -1   -1
+   54        0        0      -1   -1
+   55        0        0      -1   -1
+   56        0        0      -1   -1
+   57        0        0      -1   -1
+   58        0        0      -1   -1
+   59        0        0      -1   -1
+   60        0        0      -1   -1
+   61        0        0      -1   -1
+   62        0        0      -1   -1
+   63        0        0      -1   -1
+OSS: Shared memory and message queue cleaned up.
+OSS: Step 2 complete.
