@@ -1,15 +1,15 @@
-OSS: starting, PID:827193 PPID:5357
+OSS: starting, PID:829581 PPID:5357
 OSS called with:
--n 1
--s 1
+-n 5
+-s 2
 -t 1.000
 -i 0.000
 -f log.txt
 OSS: Shared memory clock initialized.
 OSS: Initial clock is 0:0
-OSS: Message queue created with id 20
+OSS: Message queue created with id 21
 
-OSS PID:827193 SysClockS: 0 SysClockNano: 0
+OSS PID:829581 SysClockS: 0 SysClockNano: 0
 Process Table:
 Entry Occupied LocalPID RealPID StartS StartN Blocked
     0        0        0       0      0      0       0
@@ -100,14 +100,416 @@ Frame Occupied DirtyBit Process Page
    62        0        0      -1   -1
    63        0        0      -1   -1
 
-OSS: Forked worker P1 with PID 827194 in slot 0 at time 0:0
-OSS: Sending turn message to worker P1 PID 827194 at time 0:1000
-OSS: P1 requesting write of address 10866 at time 0:1000
-OSS: Address 10866 is page 10 with offset 626
-OSS: Granting write request for address 10866 to P1 at time 0:1100
-OSS: Worker P1 PID 827194 has terminated.
+OSS: Forked worker P1 with PID 829582 in slot 0 at time 0:0
 
-OSS PID:827193 SysClockS: 0 SysClockNano: 1100
+OSS: Forked worker P2 with PID 829583 in slot 1 at time 0:0
+OSS: Sending turn message to worker P1 PID 829582 at time 0:1000
+OSS: P1 requesting write of address 6456 at time 0:1000
+OSS: Address 6456 is page 6 with offset 312
+OSS: Address 6456 is not in a frame, pagefault
+OSS: Found free frame 0
+OSS: Loaded P1 page 6 into frame 0
+OSS: Address 6456 in frame 0, writing data for P1 at time 0:1100
+
+Page Tables:
+P1 page table: [ -1 -1 -1 -1 -1 -1 0 -1 -1 -1 -1 -1 -1 -1 -1 -1 ]
+P2 page table: [ -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 ]
+
+Frame Table:
+Frame Occupied DirtyBit Process Page
+    0        1        1       0    6
+    1        0        0      -1   -1
+    2        0        0      -1   -1
+    3        0        0      -1   -1
+    4        0        0      -1   -1
+    5        0        0      -1   -1
+    6        0        0      -1   -1
+    7        0        0      -1   -1
+    8        0        0      -1   -1
+    9        0        0      -1   -1
+   10        0        0      -1   -1
+   11        0        0      -1   -1
+   12        0        0      -1   -1
+   13        0        0      -1   -1
+   14        0        0      -1   -1
+   15        0        0      -1   -1
+   16        0        0      -1   -1
+   17        0        0      -1   -1
+   18        0        0      -1   -1
+   19        0        0      -1   -1
+   20        0        0      -1   -1
+   21        0        0      -1   -1
+   22        0        0      -1   -1
+   23        0        0      -1   -1
+   24        0        0      -1   -1
+   25        0        0      -1   -1
+   26        0        0      -1   -1
+   27        0        0      -1   -1
+   28        0        0      -1   -1
+   29        0        0      -1   -1
+   30        0        0      -1   -1
+   31        0        0      -1   -1
+   32        0        0      -1   -1
+   33        0        0      -1   -1
+   34        0        0      -1   -1
+   35        0        0      -1   -1
+   36        0        0      -1   -1
+   37        0        0      -1   -1
+   38        0        0      -1   -1
+   39        0        0      -1   -1
+   40        0        0      -1   -1
+   41        0        0      -1   -1
+   42        0        0      -1   -1
+   43        0        0      -1   -1
+   44        0        0      -1   -1
+   45        0        0      -1   -1
+   46        0        0      -1   -1
+   47        0        0      -1   -1
+   48        0        0      -1   -1
+   49        0        0      -1   -1
+   50        0        0      -1   -1
+   51        0        0      -1   -1
+   52        0        0      -1   -1
+   53        0        0      -1   -1
+   54        0        0      -1   -1
+   55        0        0      -1   -1
+   56        0        0      -1   -1
+   57        0        0      -1   -1
+   58        0        0      -1   -1
+   59        0        0      -1   -1
+   60        0        0      -1   -1
+   61        0        0      -1   -1
+   62        0        0      -1   -1
+   63        0        0      -1   -1
+OSS: Worker P1 PID 829582 has terminated.
+OSS: Releasing frame 0 from P1 page 6
+
+OSS: Forked worker P3 with PID 829584 in slot 0 at time 0:1100
+OSS: Sending turn message to worker P2 PID 829583 at time 0:2100
+OSS: P2 requesting read of address 10748 at time 0:2100
+OSS: Address 10748 is page 10 with offset 508
+OSS: Address 10748 is not in a frame, pagefault
+OSS: Found free frame 0
+OSS: Loaded P2 page 10 into frame 0
+OSS: Address 10748 in frame 0, giving data to P2 at time 0:2200
+
+Page Tables:
+P3 page table: [ -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 ]
+P2 page table: [ -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 0 -1 -1 -1 -1 -1 ]
+
+Frame Table:
+Frame Occupied DirtyBit Process Page
+    0        1        0       1   10
+    1        0        0      -1   -1
+    2        0        0      -1   -1
+    3        0        0      -1   -1
+    4        0        0      -1   -1
+    5        0        0      -1   -1
+    6        0        0      -1   -1
+    7        0        0      -1   -1
+    8        0        0      -1   -1
+    9        0        0      -1   -1
+   10        0        0      -1   -1
+   11        0        0      -1   -1
+   12        0        0      -1   -1
+   13        0        0      -1   -1
+   14        0        0      -1   -1
+   15        0        0      -1   -1
+   16        0        0      -1   -1
+   17        0        0      -1   -1
+   18        0        0      -1   -1
+   19        0        0      -1   -1
+   20        0        0      -1   -1
+   21        0        0      -1   -1
+   22        0        0      -1   -1
+   23        0        0      -1   -1
+   24        0        0      -1   -1
+   25        0        0      -1   -1
+   26        0        0      -1   -1
+   27        0        0      -1   -1
+   28        0        0      -1   -1
+   29        0        0      -1   -1
+   30        0        0      -1   -1
+   31        0        0      -1   -1
+   32        0        0      -1   -1
+   33        0        0      -1   -1
+   34        0        0      -1   -1
+   35        0        0      -1   -1
+   36        0        0      -1   -1
+   37        0        0      -1   -1
+   38        0        0      -1   -1
+   39        0        0      -1   -1
+   40        0        0      -1   -1
+   41        0        0      -1   -1
+   42        0        0      -1   -1
+   43        0        0      -1   -1
+   44        0        0      -1   -1
+   45        0        0      -1   -1
+   46        0        0      -1   -1
+   47        0        0      -1   -1
+   48        0        0      -1   -1
+   49        0        0      -1   -1
+   50        0        0      -1   -1
+   51        0        0      -1   -1
+   52        0        0      -1   -1
+   53        0        0      -1   -1
+   54        0        0      -1   -1
+   55        0        0      -1   -1
+   56        0        0      -1   -1
+   57        0        0      -1   -1
+   58        0        0      -1   -1
+   59        0        0      -1   -1
+   60        0        0      -1   -1
+   61        0        0      -1   -1
+   62        0        0      -1   -1
+   63        0        0      -1   -1
+OSS: Worker P2 PID 829583 has terminated.
+OSS: Releasing frame 0 from P2 page 10
+
+OSS: Forked worker P4 with PID 829585 in slot 1 at time 0:2200
+OSS: Sending turn message to worker P3 PID 829584 at time 0:3200
+OSS: P3 requesting read of address 5559 at time 0:3200
+OSS: Address 5559 is page 5 with offset 439
+OSS: Address 5559 is not in a frame, pagefault
+OSS: Found free frame 0
+OSS: Loaded P3 page 5 into frame 0
+OSS: Address 5559 in frame 0, giving data to P3 at time 0:3300
+
+Page Tables:
+P3 page table: [ -1 -1 -1 -1 -1 0 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 ]
+P4 page table: [ -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 ]
+
+Frame Table:
+Frame Occupied DirtyBit Process Page
+    0        1        0       0    5
+    1        0        0      -1   -1
+    2        0        0      -1   -1
+    3        0        0      -1   -1
+    4        0        0      -1   -1
+    5        0        0      -1   -1
+    6        0        0      -1   -1
+    7        0        0      -1   -1
+    8        0        0      -1   -1
+    9        0        0      -1   -1
+   10        0        0      -1   -1
+   11        0        0      -1   -1
+   12        0        0      -1   -1
+   13        0        0      -1   -1
+   14        0        0      -1   -1
+   15        0        0      -1   -1
+   16        0        0      -1   -1
+   17        0        0      -1   -1
+   18        0        0      -1   -1
+   19        0        0      -1   -1
+   20        0        0      -1   -1
+   21        0        0      -1   -1
+   22        0        0      -1   -1
+   23        0        0      -1   -1
+   24        0        0      -1   -1
+   25        0        0      -1   -1
+   26        0        0      -1   -1
+   27        0        0      -1   -1
+   28        0        0      -1   -1
+   29        0        0      -1   -1
+   30        0        0      -1   -1
+   31        0        0      -1   -1
+   32        0        0      -1   -1
+   33        0        0      -1   -1
+   34        0        0      -1   -1
+   35        0        0      -1   -1
+   36        0        0      -1   -1
+   37        0        0      -1   -1
+   38        0        0      -1   -1
+   39        0        0      -1   -1
+   40        0        0      -1   -1
+   41        0        0      -1   -1
+   42        0        0      -1   -1
+   43        0        0      -1   -1
+   44        0        0      -1   -1
+   45        0        0      -1   -1
+   46        0        0      -1   -1
+   47        0        0      -1   -1
+   48        0        0      -1   -1
+   49        0        0      -1   -1
+   50        0        0      -1   -1
+   51        0        0      -1   -1
+   52        0        0      -1   -1
+   53        0        0      -1   -1
+   54        0        0      -1   -1
+   55        0        0      -1   -1
+   56        0        0      -1   -1
+   57        0        0      -1   -1
+   58        0        0      -1   -1
+   59        0        0      -1   -1
+   60        0        0      -1   -1
+   61        0        0      -1   -1
+   62        0        0      -1   -1
+   63        0        0      -1   -1
+OSS: Worker P3 PID 829584 has terminated.
+OSS: Releasing frame 0 from P3 page 5
+
+OSS: Forked worker P5 with PID 829586 in slot 0 at time 0:3300
+OSS: Sending turn message to worker P4 PID 829585 at time 0:4300
+OSS: P4 requesting read of address 6606 at time 0:4300
+OSS: Address 6606 is page 6 with offset 462
+OSS: Address 6606 is not in a frame, pagefault
+OSS: Found free frame 0
+OSS: Loaded P4 page 6 into frame 0
+OSS: Address 6606 in frame 0, giving data to P4 at time 0:4400
+
+Page Tables:
+P5 page table: [ -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 ]
+P4 page table: [ -1 -1 -1 -1 -1 -1 0 -1 -1 -1 -1 -1 -1 -1 -1 -1 ]
+
+Frame Table:
+Frame Occupied DirtyBit Process Page
+    0        1        0       1    6
+    1        0        0      -1   -1
+    2        0        0      -1   -1
+    3        0        0      -1   -1
+    4        0        0      -1   -1
+    5        0        0      -1   -1
+    6        0        0      -1   -1
+    7        0        0      -1   -1
+    8        0        0      -1   -1
+    9        0        0      -1   -1
+   10        0        0      -1   -1
+   11        0        0      -1   -1
+   12        0        0      -1   -1
+   13        0        0      -1   -1
+   14        0        0      -1   -1
+   15        0        0      -1   -1
+   16        0        0      -1   -1
+   17        0        0      -1   -1
+   18        0        0      -1   -1
+   19        0        0      -1   -1
+   20        0        0      -1   -1
+   21        0        0      -1   -1
+   22        0        0      -1   -1
+   23        0        0      -1   -1
+   24        0        0      -1   -1
+   25        0        0      -1   -1
+   26        0        0      -1   -1
+   27        0        0      -1   -1
+   28        0        0      -1   -1
+   29        0        0      -1   -1
+   30        0        0      -1   -1
+   31        0        0      -1   -1
+   32        0        0      -1   -1
+   33        0        0      -1   -1
+   34        0        0      -1   -1
+   35        0        0      -1   -1
+   36        0        0      -1   -1
+   37        0        0      -1   -1
+   38        0        0      -1   -1
+   39        0        0      -1   -1
+   40        0        0      -1   -1
+   41        0        0      -1   -1
+   42        0        0      -1   -1
+   43        0        0      -1   -1
+   44        0        0      -1   -1
+   45        0        0      -1   -1
+   46        0        0      -1   -1
+   47        0        0      -1   -1
+   48        0        0      -1   -1
+   49        0        0      -1   -1
+   50        0        0      -1   -1
+   51        0        0      -1   -1
+   52        0        0      -1   -1
+   53        0        0      -1   -1
+   54        0        0      -1   -1
+   55        0        0      -1   -1
+   56        0        0      -1   -1
+   57        0        0      -1   -1
+   58        0        0      -1   -1
+   59        0        0      -1   -1
+   60        0        0      -1   -1
+   61        0        0      -1   -1
+   62        0        0      -1   -1
+   63        0        0      -1   -1
+OSS: Worker P4 PID 829585 has terminated.
+OSS: Releasing frame 0 from P4 page 6
+OSS: Sending turn message to worker P5 PID 829586 at time 0:5400
+OSS: P5 requesting read of address 13392 at time 0:5400
+OSS: Address 13392 is page 13 with offset 80
+OSS: Address 13392 is not in a frame, pagefault
+OSS: Found free frame 0
+OSS: Loaded P5 page 13 into frame 0
+OSS: Address 13392 in frame 0, giving data to P5 at time 0:5500
+
+Page Tables:
+P5 page table: [ -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 0 -1 -1 ]
+
+Frame Table:
+Frame Occupied DirtyBit Process Page
+    0        1        0       0   13
+    1        0        0      -1   -1
+    2        0        0      -1   -1
+    3        0        0      -1   -1
+    4        0        0      -1   -1
+    5        0        0      -1   -1
+    6        0        0      -1   -1
+    7        0        0      -1   -1
+    8        0        0      -1   -1
+    9        0        0      -1   -1
+   10        0        0      -1   -1
+   11        0        0      -1   -1
+   12        0        0      -1   -1
+   13        0        0      -1   -1
+   14        0        0      -1   -1
+   15        0        0      -1   -1
+   16        0        0      -1   -1
+   17        0        0      -1   -1
+   18        0        0      -1   -1
+   19        0        0      -1   -1
+   20        0        0      -1   -1
+   21        0        0      -1   -1
+   22        0        0      -1   -1
+   23        0        0      -1   -1
+   24        0        0      -1   -1
+   25        0        0      -1   -1
+   26        0        0      -1   -1
+   27        0        0      -1   -1
+   28        0        0      -1   -1
+   29        0        0      -1   -1
+   30        0        0      -1   -1
+   31        0        0      -1   -1
+   32        0        0      -1   -1
+   33        0        0      -1   -1
+   34        0        0      -1   -1
+   35        0        0      -1   -1
+   36        0        0      -1   -1
+   37        0        0      -1   -1
+   38        0        0      -1   -1
+   39        0        0      -1   -1
+   40        0        0      -1   -1
+   41        0        0      -1   -1
+   42        0        0      -1   -1
+   43        0        0      -1   -1
+   44        0        0      -1   -1
+   45        0        0      -1   -1
+   46        0        0      -1   -1
+   47        0        0      -1   -1
+   48        0        0      -1   -1
+   49        0        0      -1   -1
+   50        0        0      -1   -1
+   51        0        0      -1   -1
+   52        0        0      -1   -1
+   53        0        0      -1   -1
+   54        0        0      -1   -1
+   55        0        0      -1   -1
+   56        0        0      -1   -1
+   57        0        0      -1   -1
+   58        0        0      -1   -1
+   59        0        0      -1   -1
+   60        0        0      -1   -1
+   61        0        0      -1   -1
+   62        0        0      -1   -1
+   63        0        0      -1   -1
+OSS: Worker P5 PID 829586 has terminated.
+OSS: Releasing frame 0 from P5 page 13
+
+OSS PID:829581 SysClockS: 0 SysClockNano: 5500
 Process Table:
 Entry Occupied LocalPID RealPID StartS StartN Blocked
     0        0        0       0      0      0       0
@@ -198,12 +600,12 @@ Frame Occupied DirtyBit Process Page
    62        0        0      -1   -1
    63        0        0      -1   -1
 
-OSS: Step 4 Summary
-OSS: Children launched: 1
-OSS: Children finished: 1
-OSS: Total memory requests: 1
-OSS: Total reads: 0
+OSS: Step 5 Summary
+OSS: Children launched: 5
+OSS: Children finished: 5
+OSS: Total memory requests: 5
+OSS: Total reads: 4
 OSS: Total writes: 1
-OSS: Final clock: 0:1100
+OSS: Total page faults: 5
+OSS: Final clock: 0:5500
 OSS: Shared memory and message queue cleaned up.
-OSS: Step 4 complete.
