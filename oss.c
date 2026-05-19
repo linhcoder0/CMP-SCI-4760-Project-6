@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <time.h>
 #include <getopt.h>
 #include <string.h>
 #include <sys/types.h>
@@ -70,6 +71,8 @@
 #define DISK_IO_NS 14000000LL
 #define DIRTY_SWAP_EXTRA_NS 14000000LL
 #define LOOP_INCREMENT_NS 10000000LL
+#define HALF_SECOND_NS 500000000LL
+#define FIVE_REAL_SECONDS 5
 
 #define MSG_TERMINATE 0
 #define MSG_MEMORY_REQUEST 1
@@ -123,6 +126,13 @@ struct PCB {
     int startNano;
     int blocked;
     int pageTable[PAGE_COUNT];
+
+    //Total number of memory requests made by this process.
+    int memoryReferences;
+
+    //Total simulated memory access time for this process.
+    //This counts the time charged to memory activity for this process.
+    long long memoryAccessTimeNS;
 };
 
 struct Frame {
@@ -232,6 +242,8 @@ void clearPCBEntry(int slot) {
     pcbTable[slot].startSeconds = 0;
     pcbTable[slot].startNano = 0;
     pcbTable[slot].blocked = 0;
+    pcbTable[slot].memoryReferences = 0;
+    pcbTable[slot].memoryAccessTimeNS = 0;
 
     //Every page table entry starts at -1.
     //-1 means that page is not currently loaded into a frame
@@ -505,6 +517,9 @@ int loadPageIntoFrame(int slot, int page, int requestType, unsigned int *clock) 
                     clock[1]);
 
             addToClock(clock, DIRTY_SWAP_EXTRA_NS);
+
+            //Charge this dirty swap cost to the process whose request caused replacement.
+            pcbTable[slot].memoryAccessTimeNS += DIRTY_SWAP_EXTRA_NS;
 
             logBoth("OSS: Dirty frame %d write-back complete at %u:%u\n",
                     frame,
@@ -786,6 +801,30 @@ void printProcessTable(unsigned int *clock) {
     }
 }
 
+//Print all blocked processes.
+//The assignment asks for a blocked process list every half second.
+void printBlockedProcesses() {
+    int i;
+    int foundBlocked = 0;
+
+    logBoth("\nBlocked Processes:\n");
+
+    for (i = 0; i < MAX_PCB_SIZE; i++) {
+        if (pcbTable[i].occupied == 1 && pcbTable[i].blocked == 1) {
+            logBoth("P%d in slot %d with PID %d is blocked\n",
+                    pcbTable[i].localPid,
+                    i,
+                    (int)pcbTable[i].pid);
+
+            foundBlocked = 1;
+        }
+    }
+
+    if (!foundBlocked) {
+        logBoth("No blocked processes.\n");
+    }
+}
+
 // Print the page table for any occupied PCB slot.
 void printPageTables() {
     int slot;
@@ -822,6 +861,29 @@ void printFrameTable() {
                 frameTable[i].process,
                 frameTable[i].page);
     }
+}
+
+//Print the full periodic report required by the PDF.
+//This includes:
+//- process table
+//- blocked process list
+//- page tables
+//- frame table
+//- FIFO queue
+void printPeriodicReport(unsigned int *clock) {
+    logBoth("\n============================================================\n");
+    logBoth("OSS: Periodic system report at time %u:%u\n",
+            clock[0],
+            clock[1]);
+    logBoth("============================================================\n");
+
+    printProcessTable(clock);
+    printBlockedProcesses();
+    printPageTables();
+    printFrameTable();
+    printFIFOQueue();
+
+    logBoth("============================================================\n\n");
 }
 
 //cleanup all IPC created by OSS.
@@ -1099,11 +1161,28 @@ int handleWorkerMemoryRequest(int msg_id,
 
     //If value is 0, the worker says its time is up.
     if (msgFromChild.value == MSG_TERMINATE) {
+        double effectiveAccessTime = 0.0;
+
+        if (pcbTable[requestSlot].memoryReferences > 0) {
+            effectiveAccessTime =
+                (double)pcbTable[requestSlot].memoryAccessTimeNS /
+                (double)pcbTable[requestSlot].memoryReferences;
+        }
+
         logBoth("OSS: Worker P%d PID %d says it is terminating at time %u:%u\n",
                 pcbTable[requestSlot].localPid,
                 (int)pid,
                 clock[0],
                 clock[1]);
+
+        logBoth("OSS: P%d made %d memory references with total memory access time %lld ns\n",
+                pcbTable[requestSlot].localPid,
+                pcbTable[requestSlot].memoryReferences,
+                pcbTable[requestSlot].memoryAccessTimeNS);
+
+        logBoth("OSS: P%d effective memory access time: %.2f ns\n",
+                pcbTable[requestSlot].localPid,
+                effectiveAccessTime);
 
         waitpid(pid, &status, 0);
 
@@ -1150,6 +1229,10 @@ int handleWorkerMemoryRequest(int msg_id,
         (*totalReads)++;
     }
 
+    //Track memory references for this process.
+    //This is used later to compute effective memory access time.
+    pcbTable[requestSlot].memoryReferences++;
+
     logBoth("OSS: P%d requesting %s of address %d at time %u:%u\n",
             pcbTable[requestSlot].localPid,
             requestString,
@@ -1168,6 +1251,10 @@ int handleWorkerMemoryRequest(int msg_id,
         //Page fault.
         //Step 6 queues this request and does not send a message back yet.
         (*totalPageFaults)++;
+
+        //This process pays the simulated disk I/O time for this page fault.
+        //If replacement later finds a dirty victim, extra time is added inside loadPageIntoFrame.
+        pcbTable[requestSlot].memoryAccessTimeNS += DISK_IO_NS;
 
         logBoth("OSS: Address %d is not in a frame, pagefault\n",
                 msgFromChild.address);
@@ -1215,6 +1302,9 @@ int handleWorkerMemoryRequest(int msg_id,
         logBoth("OSS: Dirty bit of frame %d set because this was a write\n",
                 frame);
     }
+
+    //This process had a normal memory access hit.
+    pcbTable[requestSlot].memoryAccessTimeNS += MEMORY_ACCESS_NS;
 
     addToClock(clock, MEMORY_ACCESS_NS);
 
@@ -1453,6 +1543,10 @@ int main(int argc, char *argv[]) {
     int totalWrites = 0;
     int totalPageFaults = 0;
 
+    time_t realStartTime = time(NULL);
+    int launchCutoffReached = 0;
+    long long nextPeriodicReportNS = HALF_SECOND_NS;
+
     //This is used to choose which occupied PCB slot gets messaged next.
     int nextMessageSlot = 0;
 
@@ -1468,23 +1562,31 @@ int main(int argc, char *argv[]) {
     //Keep looping while:
     //- there are still children left to launch, or
     //- there are active children still in the system.
-    while (launchedChildren < n || activeChildren > 0) {
-        long long currentNS = getClockNS(clock);
-        checkIOQueue(msg_id, clock);
+while ((!launchCutoffReached && launchedChildren < n) || activeChildren > 0) {
+    long long currentNS = getClockNS(clock);
 
-        
-        //Refresh currentNS in case checkIOQueue changed anything important.
-        currentNS = getClockNS(clock);
-        
-        //Launch as many children as allowed.
-        //
-        //Conditions:
-        //- do not launch more than n total children
-        //- do not exceed s simultaneous children
-        //- do not launch before the next launch time
-        while (launchedChildren < n &&
-               activeChildren < s &&
-               currentNS >= nextLaunchNS) {
+    checkIOQueue(msg_id, clock);
+
+    currentNS = getClockNS(clock);
+
+    //Print the required periodic report every half simulated second.
+    if (currentNS >= nextPeriodicReportNS) {
+        printPeriodicReport(clock);
+        nextPeriodicReportNS += HALF_SECOND_NS;
+    }
+
+    //Stop launching new children after 5 real-time seconds.
+    //Existing children are still allowed to finish.
+    if (!launchCutoffReached && time(NULL) - realStartTime >= FIVE_REAL_SECONDS) {
+        launchCutoffReached = 1;
+
+        logBoth("OSS: 5 real-time seconds have passed. No more children will be launched.\n");
+    }
+
+    while (launchedChildren < n &&
+           activeChildren < s &&
+           currentNS >= nextLaunchNS &&
+           !launchCutoffReached) {
             if (!launchChildProcess(t, clock, &launchedChildren, &activeChildren)) {
                 logBoth("OSS: Error launching child. Beginning cleanup.\n");
 
@@ -1547,7 +1649,7 @@ int main(int argc, char *argv[]) {
                 }
 
                 checkIOQueue(msg_id, clock);
-            } else if (launchedChildren < n) {
+} else if (!launchCutoffReached && launchedChildren < n) {
                 currentNS = getClockNS(clock);
 
                 if (currentNS < nextLaunchNS) {
@@ -1564,7 +1666,7 @@ int main(int argc, char *argv[]) {
     printPageTables();
     printFrameTable();
 
-    logBoth("\nOSS: Step 8 Summary\n");
+    logBoth("\nOSS: Summary\n");
     logBoth("OSS: Children launched: %d\n", launchedChildren);
     logBoth("OSS: Children finished: %d\n", finishedChildren);
     logBoth("OSS: Total memory requests: %d\n", totalRequests);
@@ -1578,7 +1680,8 @@ int main(int argc, char *argv[]) {
     }
 
     logBoth("OSS: Page fault percentage: %.2f%%\n", pageFaultPercent);
-
+    logBoth("OSS: Launch cutoff reached: %s\n",
+            launchCutoffReached ? "yes" : "no");
     logBoth("OSS: Final clock: %u:%u\n", clock[0], clock[1]);
 
     //clean up shared memory and the message queue.
